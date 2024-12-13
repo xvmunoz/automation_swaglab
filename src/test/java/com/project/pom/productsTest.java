@@ -24,7 +24,9 @@ public class productsTest {
     public void productTest(){
         snPage.signIn(1);
         prdPage.randomlyAddAllItemsToCart();
+        System.out.println(prdPage.productsInCart);
         prdPage.removeAllItemsFromCart();
+        System.out.println(prdPage.productsInCart);
     }
 
     @After
