@@ -7,9 +7,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 public class Base {
     private WebDriver driver;
+
+    final Duration time_out_limit_seconds = Duration.ofSeconds(5);
+    final Duration time_out_limit_milliseconds = Duration.ofMillis(5000);
 
     public Base(WebDriver driver){
         this.driver = driver;
@@ -26,11 +30,19 @@ public class Base {
     }
 
     public void setText(By locator,String text){
-        driver.findElement(locator).sendKeys(text);
+        if(validateElementIsVisible_Time(locator,time_out_limit_seconds)){
+            driver.findElement(locator).sendKeys(text);
+        }else {
+            throw new NoSuchElementException(String.format("Cannot set text to -> '%s', element is not found.",locator));
+        }
     }
 
     public String getText(By locator){
-        return driver.findElement(locator).getText();
+        if(validateElementIsVisible_Time(locator,time_out_limit_seconds)){
+            return driver.findElement(locator).getText();
+        }else {
+            throw new NoSuchElementException(String.format("Cannot get text from -> '%s', element is not found.",locator));
+        }
     }
 
     public List<WebElement> getElements(By locator){
@@ -38,7 +50,11 @@ public class Base {
     }
 
     public void click(By locator){
-        driver.findElement(locator).click();
+        if(validateElementIsVisible_Time(locator,time_out_limit_seconds)){
+            driver.findElement(locator).click();
+        }else {
+            throw new NoSuchElementException(String.format("Element -> '%s', cannot be clickable, element is not found.",locator));
+        }
     }
 
     public boolean elementIsVisible(By locator){
@@ -54,8 +70,9 @@ public class Base {
         }
     }
 
-    public void waitForElementIsVisible_Seconds(By locator,int Seconds){
-        WebDriverWait elementVisible = new WebDriverWait(driver, Duration.ofSeconds(Seconds));
+    public void waitForElementIsVisible_Seconds(By locator){
+        WebDriverWait elementVisible = new WebDriverWait(driver, time_out_limit_seconds);
         elementVisible.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+
 }

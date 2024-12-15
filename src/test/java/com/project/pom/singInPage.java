@@ -13,10 +13,10 @@ public class singInPage extends Base {
     By loginCredentialsLocator = By.xpath("//div[@id='login_credentials']");
     By loginPasswordsLocator = By.xpath("//div[@class='login_password']");
     By usersToSignInLocator = By.xpath("//div[@id='login_credentials']/text()");
-    By passwordForAllUsersLocator = By.xpath("//div[@class='login_password']/text()");
+    By passwordForAllUsersLocator = By.xpath("(//div[@class='login_password']/text())");
     By usernameInputLocator = By.xpath("//input[@id = 'user-name' and @name = 'user-name'] | //input[@placeholder = 'Username']");
     By passwordInputLocator = By.xpath("//input[@id = 'password' and @name = 'password'] | //input[@placeholder = 'Password']");
-    By loginButtonLocator = By.xpath("//input[@type = 'submit' and @id = 'login-button' and @name = 'login-button'] | //input[@type = 'submit' and @value = 'Login']");
+    By loginButtonLocator = By.xpath("//input[@type = 'submit' and @id = 'login-button' and @name = 'login-button']");
     By mainPageLogoLocator = By.xpath("//div[@class = 'primary_header']/div[@class = 'header_label']/div[@class = 'app_logo']");
 
     //Random object to get random user and password from available user and password list
@@ -67,8 +67,8 @@ public class singInPage extends Base {
         String validLoginUser = "";
 
         //Wait for credentials to be displayed
-        waitForElementIsVisible_Seconds(loginCredentialsLocator,5);
-        waitForElementIsVisible_Seconds(loginPasswordsLocator,5);
+        waitForElementIsVisible_Seconds(loginCredentialsLocator);
+        waitForElementIsVisible_Seconds(loginPasswordsLocator);
 
         if(userType > 0){
             validLoginUser = userType == 1 ? getStandardUser() : validLoginUser;
@@ -84,6 +84,6 @@ public class singInPage extends Base {
         setText(usernameInputLocator,validLoginUser);
         setText(passwordInputLocator,getRandomAvailablePassword());
         click(loginButtonLocator);
-        waitForElementIsVisible_Seconds(mainPageLogoLocator,10);
+        waitForElementIsVisible_Seconds(mainPageLogoLocator);
     }
 }
