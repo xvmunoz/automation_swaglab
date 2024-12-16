@@ -93,6 +93,7 @@ public class productsPage extends Base{
                 Assert.assertTrue("Products in cart are not matching", validateTotalProductsInCart(totalProductsInCart));
             } else {
                 System.out.println("--No more products to add--");
+                System.out.println("test");
             }
     }
 
