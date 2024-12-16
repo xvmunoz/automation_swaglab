@@ -6,9 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class productsPage extends Base{
@@ -26,6 +24,7 @@ public class productsPage extends Base{
     //Products added to cart
     int totalProductsInCart = 0;
     List<Integer> productsInCart = new ArrayList<>();
+    List<String> productDetails = new ArrayList<>();
 
     public productsPage(WebDriver driver) {
         super(driver);
@@ -76,7 +75,7 @@ public class productsPage extends Base{
         //return totalOfProducts == totalInCart;
     }
 
-    public void addToCart(int productNumber){
+    public List<String> addToCart(int productNumber){
         if(productNumber == 0){
             productNumber = chooseRandomProduct();
         }
@@ -87,13 +86,17 @@ public class productsPage extends Base{
                         productsInCart.add(productNumber);
                         totalProductsInCart++;
                         System.out.println(String.format("+ %s %s.", getProductNameByProductNumber(productNumber), getProductPriceByProductNumber(productNumber)));
+                        Assert.assertTrue("Products in cart are not matching", validateTotalProductsInCart(totalProductsInCart));
+                        return addProductDetailsByProductNumber(productNumber);
                 } else {
                     System.out.println(String.format("--%s already added--", getProductNameByProductNumber(productNumber)));
+                    //Return empty list
+                    return List.of();
                 }
-                Assert.assertTrue("Products in cart are not matching", validateTotalProductsInCart(totalProductsInCart));
             } else {
                 System.out.println("--No more products to add--");
-                System.out.println("test");
+                //Return empty list
+                return List.of();
             }
     }
 
@@ -136,5 +139,16 @@ public class productsPage extends Base{
             productsInCartList.removeAll(productsInCart);
         }
         System.out.println(productsInCart);
+    }
+
+    public List<String> addProductDetailsByProductNumber(int productNumber){
+        List<String> currentProductDetails = productDetails;
+        if(!productDetails.isEmpty()){
+            productDetails.removeAll(currentProductDetails);
+        }
+        productDetails.add(getProductNameByProductNumber(productNumber));
+        productDetails.add(getProductPriceByProductNumber(productNumber));
+        productDetails.add(getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)));
+        return productDetails;
     }
 }
