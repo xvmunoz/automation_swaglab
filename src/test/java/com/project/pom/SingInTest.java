@@ -7,23 +7,23 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.Random;
 
-public class singInTest {
+public class SingInTest {
     private WebDriver driver;
-    singInPage singinp;
+    SingInPage singInPage;
 
     //Random object to get random value form user and password list
     private Random ram;
 
     @Before
     public void setUp(){
-        singinp = new singInPage(driver);
-        driver = singinp.safariDriverConnection();
-        singinp.goTo("https://www.saucedemo.com");
+        singInPage = new SingInPage(driver);
+        driver = singInPage.safariDriverConnection();
+        singInPage.goTo("https://www.saucedemo.com");
     }
 
     @Test
     public void signInTest() {
-       singinp.signIn(1);
+       singInPage.signIn(1);
     }
 
     @After

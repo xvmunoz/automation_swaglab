@@ -5,13 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class productsPage extends Base{
+public class ProductsPage extends Base{
 
-    //Products page locators
+    //Products Page Locators
     By inventoryProductsListLocator = By.xpath("//div[@class = 'inventory_list']");
     By inventoryProductsLocator = By.xpath("//div[@class = 'inventory_item']");
     By addToCartProductLocator = By.xpath("//button[text() = 'Add to cart']");
@@ -26,7 +25,7 @@ public class productsPage extends Base{
     List<Integer> productsInCart = new ArrayList<>();
     List<String> productDetails = new ArrayList<>();
 
-    public productsPage(WebDriver driver) {
+    public ProductsPage(WebDriver driver) {
         super(driver);
     }
 
@@ -52,6 +51,13 @@ public class productsPage extends Base{
         return getText(dynamicProductNameLocator);
     }
 
+    public By getProductNameLocatorByProductNumber(int productNumber){
+        //Create dynamic XPath locator to get product details
+        //String Of Dynamic Product Name Locator
+        String stringDynamicProductNameLocator = String.format(inventoryProductNameLocator + "[%s%s",productNumber,"]");
+        return By.xpath(stringDynamicProductNameLocator);
+    }
+
     public String getProductPriceByProductNumber(int productNumber){
         //Create dynamic XPath locator to get product details
         //String Of Dynamic Product Name Locator
@@ -75,10 +81,12 @@ public class productsPage extends Base{
         //return totalOfProducts == totalInCart;
     }
 
-    public List<String> addToCart(int productNumber){
+    public int addToCart(int productNumber){
+        //If product is equals to 0 a random product is going to be chosen from products length
         if(productNumber == 0){
             productNumber = chooseRandomProduct();
         }
+        //Validate if there's available products to add
             if (productsInCart.size() != getProducts().size()) {
                 if (!productsInCart.contains(productNumber) &&
                         !getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)).contains("Remove")) {
@@ -87,20 +95,18 @@ public class productsPage extends Base{
                         totalProductsInCart++;
                         System.out.println(String.format("+ %s %s.", getProductNameByProductNumber(productNumber), getProductPriceByProductNumber(productNumber)));
                         Assert.assertTrue("Products in cart are not matching", validateTotalProductsInCart(totalProductsInCart));
-                        return addProductDetailsByProductNumber(productNumber);
+                        return productNumber;
                 } else {
                     System.out.println(String.format("--%s already added--", getProductNameByProductNumber(productNumber)));
-                    //Return empty list
-                    return List.of();
+                    return 0;
                 }
             } else {
                 System.out.println("--No more products to add--");
-                //Return empty list
-                return List.of();
+                return 0;
             }
     }
 
-    public void removeProductFromCart(int productNumber){
+    public int removeProductFromCart(int productNumber){
             //Validate item is in cart and 'Remove' button is displayed for it
             if (getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)).equals("Remove")
                     && productsInCart.contains(productNumber)) {
@@ -112,10 +118,12 @@ public class productsPage extends Base{
                     System.out.println(totalProductsInCart);
                 }
                 System.out.println(String.format("- %s, has been removed.", getProductNameByProductNumber(productNumber)));
+                return productNumber;
             } else {
                 System.out.println(String.format("Product [%s] (%s) cannot be removed from shopping cart, Product is on '%s' status."
                         , productNumber, getProductNameByProductNumber(productNumber)
                         , getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber))));
+                return 0;
             }
     }
 
@@ -149,6 +157,13 @@ public class productsPage extends Base{
         productDetails.add(getProductNameByProductNumber(productNumber));
         productDetails.add(getProductPriceByProductNumber(productNumber));
         productDetails.add(getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)));
+        return productDetails;
+    }
+
+    public List<String> selectProductToSeeDetails(int productNumber){
+        List<String> productDetails = addProductDetailsByProductNumber(productNumber);
+        click(getProductNameLocatorByProductNumber(productNumber));
+        System.out.println(productDetails);
         return productDetails;
     }
 }

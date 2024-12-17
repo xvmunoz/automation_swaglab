@@ -58,7 +58,11 @@ public class Base {
     }
 
     public boolean elementIsVisible(By locator){
-        return driver.findElement(locator).isDisplayed();
+        if(validateElementIsVisible_Time(locator,time_out_limit_seconds)){
+            return true;
+        }else {
+            throw new NoSuchElementException(String.format("Element -> '%s', is not found.",locator));
+        }
     }
 
     public boolean validateElementIsVisible_Time(By locator, Duration time){

@@ -7,9 +7,9 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Random;
 
-public class singInPage extends Base {
+public class SingInPage extends Base {
 
-    //Page locators
+    //SingIn Page Locators
     By loginCredentialsLocator = By.xpath("//div[@id='login_credentials']");
     By loginPasswordsLocator = By.xpath("//div[@class='login_password']");
     By usersToSignInLocator = By.xpath("//div[@id='login_credentials']/text()");
@@ -22,7 +22,7 @@ public class singInPage extends Base {
     //Random object to get random user and password from available user and password list
     Random rmd;
 
-    public singInPage(WebDriver driver) {
+    public SingInPage(WebDriver driver) {
         super(driver);
     }
 
