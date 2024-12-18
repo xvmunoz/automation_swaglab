@@ -24,8 +24,7 @@ public class ProductDetailsTest {
     public void productTest(){
         singInPage.signIn(1);
         int selectedProduct = productsPage.addToCart(0);
-        productsPage.selectProductToSeeDetails(selectedProduct);
-        productDetailsPage.validateIfProductSelectedDetails();
+        System.out.println(productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct)));;
     }
 
     @After
