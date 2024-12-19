@@ -10,6 +10,7 @@ public class ProductDetailsTest {
     private SingInPage singInPage;
     private ProductsPage productsPage;
     private ProductDetailsPage productDetailsPage;
+    private int selectedProduct = 0;
 
     @Before
     public void setUp(){
@@ -17,14 +18,17 @@ public class ProductDetailsTest {
         driver = singInPage.safariDriverConnection();
         productsPage = new ProductsPage(driver);
         productDetailsPage = new ProductDetailsPage(driver);
-        singInPage.goTo("https://www.saucedemo.com");
+        singInPage.goTo(singInPage.swagLabsMainURL);
     }
 
     @Test
     public void productTest(){
         singInPage.signIn(1);
-        int selectedProduct = productsPage.addToCart(0);
-        System.out.println(productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct)));;
+        //selectedProduct = productsPage.addToCart(0);
+        selectedProduct = 1;
+        productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
+        productDetailsPage.addToCartCurrentProduct();
+        productDetailsPage.removeProductFromCurrentCart();
     }
 
     @After

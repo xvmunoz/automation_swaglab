@@ -15,7 +15,7 @@ public class ProductsTest {
         singInPage = new SingInPage(driver);
         driver = singInPage.safariDriverConnection();
         productsPage = new ProductsPage(driver);
-        singInPage.goTo("https://www.saucedemo.com");
+        singInPage.goTo(singInPage.swagLabsMainURL);
     }
 
     @Test

@@ -21,9 +21,9 @@ public class ProductsPage extends Base{
     By getShoppingCartCountLocator = By.xpath("(//span[@class = 'shopping_cart_badge']/text())");
 
     //Products added to cart
-    int totalProductsInCart = 0;
-    List<Integer> productsInCart = new ArrayList<>();
-    List<String> productDetails = new ArrayList<>();
+    public int totalProductsInCart = 0;
+    public List<Integer> productsInCart = new ArrayList<>();
+    public List<String> productDetails = new ArrayList<>();
 
     public ProductsPage(WebDriver driver) {
         super(driver);
