@@ -18,12 +18,15 @@ public class ProductsPage extends Base{
     String inventoryProductPriceLocator = "(//div[@class = 'inventory_item_price'])";
     String addOrRemoveToCartButtonLocatorForDynamic = "(//div[@class = 'inventory_item']//descendant::button)";
     By shoppingCartLocator = By.xpath("//span[@class = 'shopping_cart_badge']");
-    By getShoppingCartCountLocator = By.xpath("(//span[@class = 'shopping_cart_badge']/text())");
+    By getShoppingCartCountLocator = By.xpath("//div[contains(@id,'shopping_cart')]//descendant::span[contains(@class,'shopping_cart_badge')]");
 
     //Products added to cart
     public int totalProductsInCart = 0;
     public List<Integer> productsInCart = new ArrayList<>();
     public List<String> productDetails = new ArrayList<>();
+
+    //Products header message
+    public final String productsHeaderMessage = "|From products page:";
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -70,6 +73,15 @@ public class ProductsPage extends Base{
         //String Of Dynamic Add To Cart Button By Product Locator
         String stringDynamicAddToCartByProductLocator = String.format(addOrRemoveToCartButtonLocatorForDynamic + "[%s%s",productNumber,"]");
         return By.xpath(stringDynamicAddToCartByProductLocator);
+    }
+
+    public int getTotalItemsInCart(){
+        //Validate if shopping cart badge is present so shopping cart contains products
+        if(validateElementIsVisible_Time(getShoppingCartCountLocator,time_out_limit_seconds)){
+            return totalProductsInCart = Integer.parseInt(getText(getShoppingCartCountLocator));
+        }else {
+            return 0;
+        }
     }
 
     public boolean validateTotalProductsInCart(int totalOfProducts){
@@ -163,7 +175,47 @@ public class ProductsPage extends Base{
     public List<String> selectProductToSeeDetails(int productNumber){
         List<String> productDetails = addProductDetailsByProductNumber(productNumber);
         click(getProductNameLocatorByProductNumber(productNumber));
-        System.out.println(productDetails);
+        System.out.println(String.format("%s Selected product: %s",productsHeaderMessage,productDetails));
         return productDetails;
+    }
+
+    public void validateProductStatusAddedAfterProductDetailsByProductNumber(int productNumber, List<String> productDetailsPageStatus, int productDetailsProductsInCart){
+        //Check if product was added or removed
+        if(productDetailsPageStatus.getFirst().equals("Added") || productDetailsPageStatus.getFirst().equals("Removed")){
+            //Validate product "inventory item" button status and cart items in product page are same as product details page
+            if(productDetailsPageStatus.getFirst().equals("Added") && getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)).equals("Remove")
+                    && validateSameItemsInCart(productDetailsProductsInCart)){
+                System.out.println(String.format("%s Product added successfully",productsHeaderMessage));
+            }else if (productDetailsPageStatus.getFirst().equals("Removed")){
+                throw new IllegalArgumentException(String.format("Product was not added successfully, product #%s in '%s' status."
+                        ,productNumber,getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber))));
+            }else {
+                throw new IllegalArgumentException(String.format("Unexpected status '%s', 'Added' or 'Removed' expected status.",productDetailsPageStatus.getFirst()));
+            }
+        }else {
+            throw new IllegalArgumentException(String.format("Unexpected status '%s', 'Added' or 'Removed' expected status.",productDetailsPageStatus.getFirst()));
+        }
+    }
+
+    public void validateProductStatusRemovedAfterProductDetailsByProductNumber(int productNumber, List<String> productDetailsPageStatus, int productDetailsProductsInCart){
+        //Check if product was added or removed
+        if(productDetailsPageStatus.getFirst().equals("Added") || productDetailsPageStatus.getFirst().equals("Removed")){
+            //Validate product "inventory item" button status and cart items in product page are same as product details page
+            if(productDetailsPageStatus.getFirst().equals("Removed") && getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)).equals("Add to cart")
+                    && validateSameItemsInCart(productDetailsProductsInCart)){
+                System.out.println(String.format("%s Product removed successfully",productsHeaderMessage));
+            }else if (productDetailsPageStatus.getFirst().equals("Added")){
+                throw new IllegalArgumentException(String.format("Product was not removed successfully, product #%s in '%s' status."
+                        ,productNumber,getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber))));
+            }else {
+                throw new IllegalArgumentException(String.format("Unexpected status '%s', 'Added' or 'Removed' expected status.",productDetailsPageStatus.getFirst()));
+            }
+        }else {
+            throw new IllegalArgumentException(String.format("Unexpected status '%s', 'Added' or 'Removed' expected status.",productDetailsPageStatus.getFirst()));
+        }
+    }
+
+    public boolean validateSameItemsInCart(int itemsFromCart){
+        return getTotalItemsInCart() == itemsFromCart;
     }
 }

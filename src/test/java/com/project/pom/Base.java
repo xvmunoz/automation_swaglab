@@ -16,7 +16,7 @@ public class Base {
     private WebDriver driver;
 
     final String swagLabsMainURL = "https://www.saucedemo.com";
-    final Duration time_out_limit_seconds = Duration.ofSeconds(5);
+    final Duration time_out_limit_seconds = Duration.ofSeconds(1);
     final Duration time_out_limit_milliseconds = Duration.ofMillis(5000);
 
     public Base(WebDriver driver){

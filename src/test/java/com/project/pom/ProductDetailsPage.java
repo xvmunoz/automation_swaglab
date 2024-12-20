@@ -3,7 +3,9 @@ package com.project.pom;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ProductDetailsPage extends ProductsPage{
 
@@ -15,9 +17,15 @@ public class ProductDetailsPage extends ProductsPage{
     By productDetailsButtonLocator = By.xpath("//div[@class = 'inventory_details_container']//descendant::button");
     By productDetailsShoppingCartLocator = By.xpath("//div[contains(@id,'shopping_cart')]");
     By productDetailsShoppingCartBadgeLocator = By.xpath("//div[contains(@id,'shopping_cart')]//descendant::span[contains(@class,'shopping_cart_badge')]");
+    By productDetailsBackToProductsButtonLocator = By.xpath("//button[@id = 'back-to-products']");
 
     //Count of current total of items in cart
     public int totalItemsInCart = 0;
+    //Product details list
+    public List<String> productDetails = new ArrayList<>();
+
+    //Product details header message
+    public final String productDetailsHeaderMessage = "|From product details page:";
 
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
@@ -41,6 +49,7 @@ public class ProductDetailsPage extends ProductsPage{
         }
     }
 
+    @Override
     public int getTotalItemsInCart(){
         //Validate if shopping cart badge is present so shopping cart contains products
         if(validateElementIsVisible_Time(productDetailsShoppingCartBadgeLocator,time_out_limit_seconds)){
@@ -50,23 +59,27 @@ public class ProductDetailsPage extends ProductsPage{
         }
     }
 
-    public void addToCartCurrentProduct(){
+    public List<String> addToCartCurrentProduct(){
         if(getText(productDetailsButtonLocator).contains("Add to cart")){
             click(productDetailsButtonLocator);
             if(getText(productDetailsButtonLocator).equals("Remove")){
                 totalItemsInCart ++;
-                System.out.println("+ Product has been added to cart.");
+                System.out.println(String.format("%s Product has been added to cart.",productDetailsHeaderMessage));
             }else {
                 System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
                         getText(productDetailsButtonLocator)));
             }
         }else if (getText(productDetailsButtonLocator).equals("Remove")){
             System.out.println(String.format("Product cannot be added to cart, product status as: '%s'.",getText(productDetailsButtonLocator)));
+        }else {
+            System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
+                    getText(productDetailsButtonLocator)));
         }
-        System.out.println(totalItemsInCart);
+        addToProductDetailsListIfProductAddedOrRemoved("Added");
+        return getProductDetails();
     }
 
-    public void removeProductFromCurrentCart(){
+    public List<String> removeProductFromCart(){
         if(getText(productDetailsButtonLocator).contains("Remove")){
             click(productDetailsButtonLocator);
             if(getText(productDetailsButtonLocator).equals("Add to cart")){
@@ -74,15 +87,42 @@ public class ProductDetailsPage extends ProductsPage{
                 if(totalItemsInCart >= 1){
                     totalItemsInCart --;
                 }
-                System.out.println("- Product has been removed from cart.");
+                System.out.println(String.format("%s Product has been removed from cart.",productDetailsHeaderMessage));
             }else {
                 System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
                         getText(productDetailsButtonLocator)));
             }
         }else if (getText(productDetailsButtonLocator).equals("Add to cart")){
             System.out.println(String.format("Product cannot be removed from cart, product status as: '%s'.",getText(productDetailsButtonLocator)));
+        }else {
+            System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
+                    getText(productDetailsButtonLocator)));
         }
-        System.out.println(totalItemsInCart);
+        addToProductDetailsListIfProductAddedOrRemoved("Removed");
+        return getProductDetails();
+    }
+
+    public void goBackToProducts(){
+        //Validate Back To Products Button is visible
+        if(validateElementIsVisible_Time(productDetailsBackToProductsButtonLocator,time_out_limit_seconds)){
+            click(productDetailsBackToProductsButtonLocator);
+        }else {
+            throw new NoSuchElementException(String.format("Element -> %s is not visible.",productDetailsBackToProductsButtonLocator));
+        }
+    }
+
+    public List<String> getProductDetails(){
+        //Add product name
+        productDetails.add(getText(productDetailsNameLocator));
+        //Add product price
+        productDetails.add(getText(productDetailsPriceLocator));
+        //Add product button inventory status
+        productDetails.add(getText(productDetailsButtonLocator));
+        return productDetails;
+    }
+
+    public void addToProductDetailsListIfProductAddedOrRemoved(String finalAction){
+        productDetails.add(finalAction);
     }
 
 }

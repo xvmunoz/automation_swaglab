@@ -5,12 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 public class ProductDetailsTest {
     private WebDriver driver;
     private SingInPage singInPage;
     private ProductsPage productsPage;
     private ProductDetailsPage productDetailsPage;
     private int selectedProduct = 0;
+    private List<String> productAction;
 
     @Before
     public void setUp(){
@@ -22,13 +25,23 @@ public class ProductDetailsTest {
     }
 
     @Test
-    public void productTest(){
+    public void selectProductAndAddToCart(){
         singInPage.signIn(1);
-        //selectedProduct = productsPage.addToCart(0);
         selectedProduct = 1;
         productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
-        productDetailsPage.addToCartCurrentProduct();
-        productDetailsPage.removeProductFromCurrentCart();
+        productAction = productDetailsPage.addToCartCurrentProduct();
+        productDetailsPage.goBackToProducts();
+        productsPage.validateProductStatusAddedAfterProductDetailsByProductNumber(selectedProduct, productAction, productDetailsPage.totalItemsInCart);
+    }
+
+    @Test
+    public void selectAddedProductAndRemoveToCart(){
+        singInPage.signIn(1);
+        selectedProduct = productsPage.addToCart(0);
+        productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
+        productAction = productDetailsPage.removeProductFromCart();
+        productDetailsPage.goBackToProducts();
+        productsPage.validateProductStatusRemovedAfterProductDetailsByProductNumber(selectedProduct, productAction, productDetailsPage.totalItemsInCart);
     }
 
     @After
