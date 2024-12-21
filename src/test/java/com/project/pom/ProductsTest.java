@@ -20,6 +20,7 @@ public class ProductsTest {
 
     @Test
     public void productTest(){
+        productsPage.printTestTitleToConsole("Product Test");
         singInPage.signIn(1);
         int selectedProduct = productsPage.addToCart(0);
         productsPage.selectProductToSeeDetails(selectedProduct);

@@ -25,7 +25,7 @@ public class ProductDetailsPage extends ProductsPage{
     public List<String> productDetails = new ArrayList<>();
 
     //Product details header message
-    public final String productDetailsHeaderMessage = "|From product details page:";
+    public final String productDetailsHeaderMessage = "|From Product Details Page:";
 
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
@@ -64,15 +64,15 @@ public class ProductDetailsPage extends ProductsPage{
             click(productDetailsButtonLocator);
             if(getText(productDetailsButtonLocator).equals("Remove")){
                 totalItemsInCart ++;
-                System.out.println(String.format("%s Product has been added to cart.",productDetailsHeaderMessage));
+                printToConsoleWithHeader(productDetailsHeaderMessage,"Product has been added to cart.");
             }else {
-                System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
+                printToConsoleWithHeader(productDetailsHeaderMessage,String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
                         getText(productDetailsButtonLocator)));
             }
         }else if (getText(productDetailsButtonLocator).equals("Remove")){
-            System.out.println(String.format("Product cannot be added to cart, product status as: '%s'.",getText(productDetailsButtonLocator)));
+            printToConsoleWithHeader(productDetailsHeaderMessage,String.format("Product cannot be added to cart, product status as: '%s'.",getText(productDetailsButtonLocator)));
         }else {
-            System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
+            printToConsoleWithHeader(productDetailsHeaderMessage,String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
                     getText(productDetailsButtonLocator)));
         }
         addToProductDetailsListIfProductAddedOrRemoved("Added");
@@ -87,15 +87,15 @@ public class ProductDetailsPage extends ProductsPage{
                 if(totalItemsInCart >= 1){
                     totalItemsInCart --;
                 }
-                System.out.println(String.format("%s Product has been removed from cart.",productDetailsHeaderMessage));
+                printToConsoleWithHeader(productDetailsHeaderMessage,"Product has been removed from cart.");
             }else {
-                System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
+                printToConsoleWithHeader(productDetailsHeaderMessage,String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
                         getText(productDetailsButtonLocator)));
             }
         }else if (getText(productDetailsButtonLocator).equals("Add to cart")){
-            System.out.println(String.format("Product cannot be removed from cart, product status as: '%s'.",getText(productDetailsButtonLocator)));
+            printToConsoleWithHeader(productDetailsHeaderMessage,String.format("Product cannot be removed from cart, product status as: '%s'.",getText(productDetailsButtonLocator)));
         }else {
-            System.out.println(String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
+            printToConsoleWithHeader(productDetailsHeaderMessage,String.format("Unknown status from ->%s, current status as: '%s'.",productDetailsButtonLocator,
                     getText(productDetailsButtonLocator)));
         }
         addToProductDetailsListIfProductAddedOrRemoved("Removed");

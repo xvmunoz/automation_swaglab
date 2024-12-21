@@ -78,4 +78,12 @@ public class Base {
         elementVisible.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
+    public void printToConsoleWithHeader(String headerTitle, String message){
+        System.out.println(String.format("%s\n%s\n",headerTitle.toUpperCase(),message));
+    }
+
+    public void printTestTitleToConsole(String title){
+        System.out.println(String.format("\n***** |%s| *****\n",title.toUpperCase()));
+    }
+
 }

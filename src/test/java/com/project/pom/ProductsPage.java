@@ -26,7 +26,7 @@ public class ProductsPage extends Base{
     public List<String> productDetails = new ArrayList<>();
 
     //Products header message
-    public final String productsHeaderMessage = "|From products page:";
+    public final String productsHeaderMessage = "|From Products Page:";
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -105,15 +105,15 @@ public class ProductsPage extends Base{
                         click(getProductAddOrRemoveToCartLocationByProductNumber(productNumber));
                         productsInCart.add(productNumber);
                         totalProductsInCart++;
-                        System.out.println(String.format("+ %s %s.", getProductNameByProductNumber(productNumber), getProductPriceByProductNumber(productNumber)));
+                        printToConsoleWithHeader(productsHeaderMessage,String.format("+ %s %s.",getProductNameByProductNumber(productNumber), getProductPriceByProductNumber(productNumber)));
                         Assert.assertTrue("Products in cart are not matching", validateTotalProductsInCart(totalProductsInCart));
                         return productNumber;
                 } else {
-                    System.out.println(String.format("--%s already added--", getProductNameByProductNumber(productNumber)));
+                    printToConsoleWithHeader(productsHeaderMessage,String.format("--%s already added--", getProductNameByProductNumber(productNumber)));
                     return 0;
                 }
             } else {
-                System.out.println("--No more products to add--");
+                printToConsoleWithHeader(productsHeaderMessage,"--No more products to add--");
                 return 0;
             }
     }
@@ -127,12 +127,12 @@ public class ProductsPage extends Base{
                 if (!productsInCart.isEmpty() && !validateElementIsVisible_Time(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)
                         , time_out_limit_seconds)) {
                     validateTotalProductsInCart(totalProductsInCart);
-                    System.out.println(totalProductsInCart);
+                    printToConsoleWithHeader(productsHeaderMessage,String.format("%s",totalProductsInCart));
                 }
-                System.out.println(String.format("- %s, has been removed.", getProductNameByProductNumber(productNumber)));
+                printToConsoleWithHeader(productsHeaderMessage,String.format("- %s, has been removed.", getProductNameByProductNumber(productNumber)));
                 return productNumber;
             } else {
-                System.out.println(String.format("Product [%s] (%s) cannot be removed from shopping cart, Product is on '%s' status."
+                printToConsoleWithHeader(productsHeaderMessage,String.format("Product [%s] (%s) cannot be removed from shopping cart, Product is on '%s' status."
                         , productNumber, getProductNameByProductNumber(productNumber)
                         , getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber))));
                 return 0;
@@ -147,7 +147,7 @@ public class ProductsPage extends Base{
                 addToCart(0);
             }
         }
-        System.out.println(productsInCart);
+        printToConsoleWithHeader(productsHeaderMessage,String.format("%s",productsInCart));
     }
 
     public void removeAllItemsFromCart() {
@@ -158,7 +158,7 @@ public class ProductsPage extends Base{
         if (totalProductsInCart == 0) {
             productsInCartList.removeAll(productsInCart);
         }
-        System.out.println(productsInCart);
+        printToConsoleWithHeader(productsHeaderMessage,String.format("%s",productsInCart));
     }
 
     public List<String> addProductDetailsByProductNumber(int productNumber){
@@ -175,7 +175,7 @@ public class ProductsPage extends Base{
     public List<String> selectProductToSeeDetails(int productNumber){
         List<String> productDetails = addProductDetailsByProductNumber(productNumber);
         click(getProductNameLocatorByProductNumber(productNumber));
-        System.out.println(String.format("%s Selected product: %s",productsHeaderMessage,productDetails));
+        printToConsoleWithHeader(productsHeaderMessage,String.format("Selected product: %s",productDetails));
         return productDetails;
     }
 
@@ -185,7 +185,7 @@ public class ProductsPage extends Base{
             //Validate product "inventory item" button status and cart items in product page are same as product details page
             if(productDetailsPageStatus.getFirst().equals("Added") && getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)).equals("Remove")
                     && validateSameItemsInCart(productDetailsProductsInCart)){
-                System.out.println(String.format("%s Product added successfully",productsHeaderMessage));
+                printToConsoleWithHeader(productsHeaderMessage,"Product added successfully");
             }else if (productDetailsPageStatus.getFirst().equals("Removed")){
                 throw new IllegalArgumentException(String.format("Product was not added successfully, product #%s in '%s' status."
                         ,productNumber,getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber))));
@@ -203,7 +203,7 @@ public class ProductsPage extends Base{
             //Validate product "inventory item" button status and cart items in product page are same as product details page
             if(productDetailsPageStatus.getFirst().equals("Removed") && getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)).equals("Add to cart")
                     && validateSameItemsInCart(productDetailsProductsInCart)){
-                System.out.println(String.format("%s Product removed successfully",productsHeaderMessage));
+                printToConsoleWithHeader(productsHeaderMessage,"Product removed successfully");
             }else if (productDetailsPageStatus.getFirst().equals("Added")){
                 throw new IllegalArgumentException(String.format("Product was not removed successfully, product #%s in '%s' status."
                         ,productNumber,getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber))));
@@ -219,10 +219,12 @@ public class ProductsPage extends Base{
         return getTotalItemsInCart() == itemsFromCart;
     }
 
-    public void goToShoppingCart(int numberOfItemsInCart){
+    public int goToShoppingCart(){
         //Validate if shopping cart element is visible
         if(validateElementIsVisible_Time(shoppingCartLocator,time_out_limit_seconds)){
             click(shoppingCartLocator);
+            printToConsoleWithHeader(productsHeaderMessage,String.format("Total items in cart: %s.",totalProductsInCart));
+            return totalProductsInCart;
         }else {
             throw new NoSuchElementException(String.format("Element -> '%s' is not visible."));
         }

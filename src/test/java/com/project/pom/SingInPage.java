@@ -22,6 +22,9 @@ public class SingInPage extends Base {
     //Random object to get random user and password from available user and password list
     Random rmd;
 
+    //SignIn header message
+    public final String signInHeaderMessage = "|From Sign In Page:";
+
     public SingInPage(WebDriver driver) {
         super(driver);
     }
@@ -78,7 +81,7 @@ public class SingInPage extends Base {
 
         //Get user that's not locked
         validLoginUser = validLoginUser.contains("locked") ? getRandomAvailableUser() : validLoginUser;
-        System.out.println(String.format("Login with %s",validLoginUser));
+        printToConsoleWithHeader(signInHeaderMessage,String.format("Login with %s",validLoginUser));
 
         //Get random username and password to LogIn
         setText(usernameInputLocator,validLoginUser);

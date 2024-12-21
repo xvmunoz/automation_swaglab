@@ -26,6 +26,7 @@ public class ProductDetailsTest {
 
     @Test
     public void selectProductAndAddToCart(){
+        productDetailsPage.printTestTitleToConsole("Select Product And Add To Cart");
         singInPage.signIn(1);
         selectedProduct = 1;
         productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
@@ -36,6 +37,7 @@ public class ProductDetailsTest {
 
     @Test
     public void selectAddedProductAndRemoveToCart(){
+        productDetailsPage.printTestTitleToConsole("Select Added Product And Remove From Cart");
         singInPage.signIn(1);
         selectedProduct = productsPage.addToCart(0);
         productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));

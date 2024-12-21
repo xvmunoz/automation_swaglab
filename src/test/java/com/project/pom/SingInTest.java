@@ -23,7 +23,8 @@ public class SingInTest {
 
     @Test
     public void signInTest() {
-       singInPage.signIn(1);
+        singInPage.printTestTitleToConsole("SignIn Test");
+        singInPage.signIn(1);
     }
 
     @After

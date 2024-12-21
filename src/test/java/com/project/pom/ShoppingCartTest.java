@@ -25,9 +25,10 @@ public class ShoppingCartTest {
 
     @Test
     public void addProductToCartAndValidateOnShoppingCart(){
+        shoppingCartPage.printTestTitleToConsole("Add Product To Cart And Validate On Shopping Cart");
         singInPage.signIn(1);
-        productsPage.addToCart(0);
-        productsPage.goToShoppingCart(productsPage.totalProductsInCart);
+        selectedProduct = productsPage.addToCart(0);
+        productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
     }
 
