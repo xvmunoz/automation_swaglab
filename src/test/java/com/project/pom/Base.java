@@ -4,13 +4,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import javax.print.DocFlavor;
-import java.net.URI;
-import java.net.URL;
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class Base {
     private WebDriver driver;

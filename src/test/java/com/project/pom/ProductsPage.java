@@ -218,4 +218,13 @@ public class ProductsPage extends Base{
     public boolean validateSameItemsInCart(int itemsFromCart){
         return getTotalItemsInCart() == itemsFromCart;
     }
+
+    public void goToShoppingCart(int numberOfItemsInCart){
+        //Validate if shopping cart element is visible
+        if(validateElementIsVisible_Time(shoppingCartLocator,time_out_limit_seconds)){
+            click(shoppingCartLocator);
+        }else {
+            throw new NoSuchElementException(String.format("Element -> '%s' is not visible."));
+        }
+    }
 }
