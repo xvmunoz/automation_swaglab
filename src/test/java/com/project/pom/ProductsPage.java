@@ -24,6 +24,7 @@ public class ProductsPage extends Base{
     public int totalProductsInCart = 0;
     public List<Integer> productsInCart = new ArrayList<>();
     public List<String> productDetails = new ArrayList<>();
+    public List<List> shoppingCartItemsDetailsByItem = new ArrayList<>();
 
     //Products header message
     public final String productsHeaderMessage = "|From Products Page:";
@@ -104,6 +105,7 @@ public class ProductsPage extends Base{
                         !getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)).contains("Remove")) {
                         click(getProductAddOrRemoveToCartLocationByProductNumber(productNumber));
                         productsInCart.add(productNumber);
+                        shoppingCartItemsDetailsByItem.add(getProductDetailsByProductNumber(productNumber));
                         totalProductsInCart++;
                         printToConsoleWithHeader(productsHeaderMessage,String.format("+ %s %s.",getProductNameByProductNumber(productNumber), getProductPriceByProductNumber(productNumber)));
                         Assert.assertTrue("Products in cart are not matching", validateTotalProductsInCart(totalProductsInCart));
@@ -170,6 +172,15 @@ public class ProductsPage extends Base{
         productDetails.add(getProductPriceByProductNumber(productNumber));
         productDetails.add(getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)));
         return productDetails;
+    }
+
+
+    public List<String> getProductDetailsByProductNumber(int productNumber){
+        List<String> currentProductDetails = new ArrayList<>();
+        currentProductDetails.add(getProductNameByProductNumber(productNumber));
+        currentProductDetails.add(getProductPriceByProductNumber(productNumber));
+        currentProductDetails.add(getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)));
+        return currentProductDetails;
     }
 
     public List<String> selectProductToSeeDetails(int productNumber){

@@ -30,10 +30,11 @@ public class ShoppingCartTest {
         selectedProduct = productsPage.addToCart(0);
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.removeItemFromShoppingCartList(1);
     }
 
     @After
     public void tearDown(){
-        //driver.close();
+        driver.close();
     }
 }

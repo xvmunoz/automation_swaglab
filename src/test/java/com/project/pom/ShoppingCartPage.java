@@ -12,8 +12,7 @@ public class ShoppingCartPage extends ProductsPage{
     //Shopping Cart Elements Locators
     By shoppingCartTitleLocator = By.xpath("//span[contains(text(),'Your Cart')]");
     By shoppingCartListLocator = By.xpath("//div[@class = 'cart_list']");
-    By shoppingCartItemsLocator = By.xpath("(//div[@class = 'cart_list']//descendant::div[@class = 'cart_item'])");
-    By shoppingCartRemoveItemButtonLocator = By.xpath("(//div[@class = 'cart_list']//descendant::button[contains(@id,'remove')])");
+    String shoppingCartItemsLocator = "(//div[@class = 'cart_list']//descendant::div[@class = 'cart_item'])";
     By shoppingCartContinueShoppingButtonLocator = By.xpath("//button[@id = 'continue-shopping']");
     By shoppingCartCheckoutButtonLocator = By.xpath("//button[@id = 'checkout']");
 
@@ -64,6 +63,14 @@ public class ShoppingCartPage extends ProductsPage{
 
     public void removeItemFromShoppingCartList(int itemNumberOnList){
         //Validate Item Number Is On List And Has Remove Status
+        if(validateElementIsVisible_Time(By.xpath(getItemLocatorOnListByItemNumber(itemNumberOnList)),time_out_limit_seconds)
+                && getItemButtonStatusByItemNumber(itemNumberOnList).equals("Remove")){
+            click(By.xpath(getItemButtonStatusLocatorByItemNumber(itemNumberOnList)));
+            printToConsoleWithHeader(shoppingCartHeaderMessage,String.format("Product from list #%s, has been removed.",itemNumberOnList));
+        }else {
+            throw new NoSuchElementException(String.format("%s Item is not visible, Element -> '%s' is not present."
+                    ,shoppingCartHeaderMessage,By.xpath(getItemLocatorOnListByItemNumber(itemNumberOnList))));
+        }
 
     }
 
@@ -72,6 +79,19 @@ public class ShoppingCartPage extends ProductsPage{
     }
 
     public List<WebElement> getItemsInShoppingCartList(){
-        return getElements(shoppingCartItemsLocator);
+        return getElements(By.xpath(shoppingCartItemsLocator));
+    }
+
+    public String getItemNameByItemNumber(int itemNumberOnList){
+        return getText(By.xpath(String.format("%s//descendant::div[@class = 'inventory_item_name']"
+                ,getItemLocatorOnListByItemNumber(itemNumberOnList))));
+    }
+
+    public String getItemButtonStatusLocatorByItemNumber(int itemNumberOnList){
+        return String.format("%s//descendant::button",getItemLocatorOnListByItemNumber(itemNumberOnList));
+    }
+
+    public String getItemButtonStatusByItemNumber(int itemNumberOnList){
+        return getText(By.xpath(String.format("%s//descendant::button",getItemLocatorOnListByItemNumber(itemNumberOnList))));
     }
 }

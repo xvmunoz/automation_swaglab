@@ -26,6 +26,19 @@ public class ProductsTest {
         productsPage.selectProductToSeeDetails(selectedProduct);
     }
 
+    @Test
+    public void addProductsRandomly(){
+        productsPage.printTestTitleToConsole("Add Products Randomly");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.shoppingCartItemsDetailsByItem.forEach(item -> {
+            System.out.println(String.format("Product Name: %s | Product Price: %s | Product Actual Status: %s"
+                    ,item.getFirst()
+                    ,item.get(1)
+                    ,item.getLast()));
+        });
+    }
+
     @After
     public void tearDown(){
         driver.close();
