@@ -27,12 +27,11 @@ public class ShoppingCartTest {
     public void addProductsToCartAndValidateOnShoppingCart(){
         shoppingCartPage.printTestTitleToConsole("Add Products To Cart And Validate On Shopping Cart");
         singInPage.signIn(1);
-        productsPage.addToCart(1);
-        productsPage.addToCart(2);
-        System.out.println(productsPage.shoppingCartItemsDetailsByItem);
+        productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
         shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+
     }
 
     @Test

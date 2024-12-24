@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.io.EOFException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCartPage extends ProductsPage{
@@ -102,20 +103,49 @@ public class ShoppingCartPage extends ProductsPage{
         return getText(By.xpath(String.format("%s//descendant::button",getItemLocatorOnListByItemNumber(itemNumberOnList))));
     }
 
+    //Validate If Shopping Cart List Has Items Added In Product Page
     public void validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(List<List> productsPageList){
-        printToConsoleWithHeader(shoppingCartHeaderMessage,"Validate Items Added From Product Page Are Displayed On Shopping Cart List");
-        for (int i = 0; i < productsPageList.size(); i ++){
-            //Display item details
-            System.out.println(productsPageList.get(i));
-            //Validate Item Name
-            System.out.println(String.format("Is Name Same? %s"
-                    ,productsPageList.get(i).getFirst().equals(getProductNameByProductNumber(i + 1))));
-            //Validate Item Price
-            System.out.println(String.format("Is Price Same? %s"
-                    ,productsPageList.get(i).get(1).equals(getProductPriceByProductNumber(i + 1))));
-            //Validate Item Name
-            System.out.println(String.format("Is Button Status Same? %s"
-                    ,productsPageList.get(i).getLast().equals(getItemButtonStatusByItemNumber(i + 1))));
+        //Lists Iterators
+        AtomicInteger incrementProductsPageList = new AtomicInteger(0);
+        AtomicInteger incrementShoppingCartList = new AtomicInteger(0);
+        //Final Result Flag
+        AtomicBoolean result = new AtomicBoolean(false);
+        //Iterate Inside Shopping Cart Item List To Validate That Items Added In Product Page Are Listed
+        getItemsInShoppingCartList().forEach(item->{
+            //Increment Shopping Cart List So It Search Item Number Inside DOM
+            incrementShoppingCartList.getAndIncrement();
+            //Validate Item Listed In Shopping Cart Page List Is Inside Items Added In Product Page
+            System.out.println(String.format("......Checking Item '%s'......"
+                    ,getItemNameByItemNumber(Integer.parseInt(incrementShoppingCartList.toString()))));
+            if(getItemNameByItemNumber(Integer.parseInt(incrementShoppingCartList.toString()))
+                    .equals(productsPageList.get(Integer.parseInt(incrementProductsPageList.toString())).getFirst())){
+                //Validate Item Price Is Same As Item Added In Product Page
+                System.out.println("Checking Price......");
+                if(getProductPriceByProductNumber(Integer.parseInt(incrementShoppingCartList.toString()))
+                        .equals(productsPageList.get(Integer.parseInt(incrementProductsPageList.toString())).get(1))){
+                    //Validate Item Button Status Is Same As Item Added In Product Page
+                    System.out.println("Checking Button Status......");
+                    if(getItemButtonStatusByItemNumber(Integer.parseInt(incrementShoppingCartList.toString()))
+                            .equals(productsPageList.get(Integer.parseInt(incrementProductsPageList.toString())).getLast())){
+                        System.out.println("Product Is On List.\n");
+                        result.set(true);
+                    }else {
+                        throw new IllegalArgumentException(String.format("%s Item Added In Products Page 'Button Status' Is Not Same As Item In Shopping Cart Page List."
+                                ,shoppingCartHeaderMessage));
+                    }
+                }else{
+                    throw new IllegalArgumentException(String.format("%s Item Added In Products Page 'Price' Is Not Same As Item In Shopping Cart Page List."
+                            ,shoppingCartHeaderMessage));
+                }
+            }else {
+                throw new NoSuchElementException(String.format("%s Item Added In Products Page Is Not In Shopping Cart Page List."
+                        ,shoppingCartHeaderMessage));
+            }
+            //Increment Product Page List So It Search Inside List's Arrays
+            incrementProductsPageList.getAndIncrement();
+        });
+        if(result.get()){
+            printToConsoleWithHeader(shoppingCartHeaderMessage,"Items Added In Product Page Are Same As Items Listed In Shopping Cart Page List.");
         }
     }
 }
