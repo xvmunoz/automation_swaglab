@@ -5,7 +5,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.io.EOFException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCartPage extends ProductsPage{
 
@@ -66,7 +68,12 @@ public class ShoppingCartPage extends ProductsPage{
         if(validateElementIsVisible_Time(By.xpath(getItemLocatorOnListByItemNumber(itemNumberOnList)),time_out_limit_seconds)
                 && getItemButtonStatusByItemNumber(itemNumberOnList).equals("Remove")){
             click(By.xpath(getItemButtonStatusLocatorByItemNumber(itemNumberOnList)));
-            printToConsoleWithHeader(shoppingCartHeaderMessage,String.format("Product from list #%s, has been removed.",itemNumberOnList));
+            //Validate Item On List Has Been Removed
+            if(!validateElementIsVisible_Time(By.xpath(getItemLocatorOnListByItemNumber(itemNumberOnList)),time_out_limit_seconds)){
+                printToConsoleWithHeader(shoppingCartHeaderMessage,String.format("Product from list #%s, has been removed.",itemNumberOnList));
+            }else {
+                throw new IllegalArgumentException(String.format("%s Remove action could not be completed, Item still on list."));
+            }
         }else {
             throw new NoSuchElementException(String.format("%s Item is not visible, Element -> '%s' is not present."
                     ,shoppingCartHeaderMessage,By.xpath(getItemLocatorOnListByItemNumber(itemNumberOnList))));
@@ -93,5 +100,22 @@ public class ShoppingCartPage extends ProductsPage{
 
     public String getItemButtonStatusByItemNumber(int itemNumberOnList){
         return getText(By.xpath(String.format("%s//descendant::button",getItemLocatorOnListByItemNumber(itemNumberOnList))));
+    }
+
+    public void validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(List<List> productsPageList){
+        printToConsoleWithHeader(shoppingCartHeaderMessage,"Validate Items Added From Product Page Are Displayed On Shopping Cart List");
+        for (int i = 0; i < productsPageList.size(); i ++){
+            //Display item details
+            System.out.println(productsPageList.get(i));
+            //Validate Item Name
+            System.out.println(String.format("Is Name Same? %s"
+                    ,productsPageList.get(i).getFirst().equals(getProductNameByProductNumber(i + 1))));
+            //Validate Item Price
+            System.out.println(String.format("Is Price Same? %s"
+                    ,productsPageList.get(i).get(1).equals(getProductPriceByProductNumber(i + 1))));
+            //Validate Item Name
+            System.out.println(String.format("Is Button Status Same? %s"
+                    ,productsPageList.get(i).getLast().equals(getItemButtonStatusByItemNumber(i + 1))));
+        }
     }
 }

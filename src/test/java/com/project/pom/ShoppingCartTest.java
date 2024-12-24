@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCartTest {
     private WebDriver driver;
@@ -24,13 +24,26 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void addProductToCartAndValidateOnShoppingCart(){
-        shoppingCartPage.printTestTitleToConsole("Add Product To Cart And Validate On Shopping Cart");
+    public void addProductsToCartAndValidateOnShoppingCart(){
+        shoppingCartPage.printTestTitleToConsole("Add Products To Cart And Validate On Shopping Cart");
+        singInPage.signIn(1);
+        productsPage.addToCart(1);
+        productsPage.addToCart(2);
+        System.out.println(productsPage.shoppingCartItemsDetailsByItem);
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+    }
+
+    @Test
+    public void addProductAndRemoveItFromShoppingCartList(){
+        shoppingCartPage.printTestTitleToConsole("Add Product And Remove It From Shopping Cart List");
         singInPage.signIn(1);
         selectedProduct = productsPage.addToCart(0);
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
         shoppingCartPage.removeItemFromShoppingCartList(1);
+        shoppingCartPage.goToContinueShopping();
     }
 
     @After
