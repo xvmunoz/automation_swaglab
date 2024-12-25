@@ -45,6 +45,24 @@ public class ShoppingCartTest {
         shoppingCartPage.goToContinueShopping();
     }
 
+    @Test
+    public void addProductAndValidateOnShoppingCartList(){
+        shoppingCartPage.printTestTitleToConsole("Add Product And Remove It From Shopping Cart List");
+        singInPage.signIn(1);
+        while (productsPage.productsInCart.size() < productsPage.getProducts().size()) {
+            if(productsPage.productsInCart.size() == productsPage.getProducts().size()){
+                break;
+            }else {
+                productsPage.addToCart(0);
+                productsPage.goToShoppingCart();
+                shoppingCartPage.validateShoppingCartPage();
+                shoppingCartPage.goToContinueShopping();
+            }
+        }
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+    }
+
     @After
     public void tearDown(){
         driver.close();
