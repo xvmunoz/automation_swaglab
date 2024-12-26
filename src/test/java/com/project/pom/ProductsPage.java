@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProductsPage extends Base{
 
@@ -139,6 +140,22 @@ public class ProductsPage extends Base{
                         , getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber))));
                 return 0;
             }
+    }
+
+    public List<String> removeProductDetailsFromCart(String itemName){
+        List<List> itemsDetailsInCart = shoppingCartItemsDetailsByItem;
+        List<String> itemRemoved = new ArrayList<>();
+        AtomicInteger shoppingCartItemIterator = new AtomicInteger(0);
+        AtomicInteger shoppingCartItemNumberOnList = new AtomicInteger(0);
+        itemsDetailsInCart.forEach(item->{
+            if(item.getFirst().equals(itemName)){
+                shoppingCartItemNumberOnList.getAndSet(shoppingCartItemIterator.get());
+                //System.out.println(String.format("test %s",shoppingCartItemNumberOnList));
+            }
+            shoppingCartItemIterator.getAndIncrement();
+        });
+        shoppingCartItemsDetailsByItem.remove(shoppingCartItemNumberOnList.get());
+        return itemRemoved;
     }
 
     public void randomlyAddAllItemsToCart(){

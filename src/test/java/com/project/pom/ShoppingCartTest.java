@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCartTest {
@@ -38,25 +39,35 @@ public class ShoppingCartTest {
     public void addProductAndRemoveItFromShoppingCartList(){
         shoppingCartPage.printTestTitleToConsole("Add Product And Remove It From Shopping Cart List");
         singInPage.signIn(1);
-        selectedProduct = productsPage.addToCart(0);
+        productsPage.addToCart(1);
+        productsPage.addToCart(2);
+        productsPage.addToCart(3);
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
-        shoppingCartPage.removeItemFromShoppingCartList(1);
+        shoppingCartPage
+                .validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        List<String> itemRemoved = shoppingCartPage.removeItemFromShoppingCartList(2);
+        productsPage.removeProductDetailsFromCart(itemRemoved.getLast());
         shoppingCartPage.goToContinueShopping();
+        //***NEED A METHOD TO REMOVE ITEM NUMBER FROM PRODUCT PAGE ITEMS NUMBERS IN CART LIST***//
+        //***NEED A METHOD TO REMOVE ITEM RANDOMLY PICKED FROM SHOPPING CART PAGE LIST***//
     }
 
     @Test
     public void addProductAndValidateOnShoppingCartList(){
         shoppingCartPage.printTestTitleToConsole("Add Product And Remove It From Shopping Cart List");
         singInPage.signIn(1);
-        while (productsPage.productsInCart.size() < productsPage.getProducts().size()) {
-            if(productsPage.productsInCart.size() == productsPage.getProducts().size()){
+        while (productsPage.shoppingCartItemsDetailsByItem.size() < productsPage.getProducts().size()) {
+            if(productsPage.shoppingCartItemsDetailsByItem.size() == productsPage.getProducts().size()){
                 break;
             }else {
                 productsPage.addToCart(0);
                 productsPage.goToShoppingCart();
                 shoppingCartPage.validateShoppingCartPage();
+                shoppingCartPage
+                        .validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
                 shoppingCartPage.goToContinueShopping();
+                System.out.println("\n******------******\n");
             }
         }
         productsPage.goToShoppingCart();
