@@ -143,19 +143,35 @@ public class ProductsPage extends Base{
     }
 
     public List<String> removeProductDetailsFromCart(String itemName){
-        List<List> itemsDetailsInCart = shoppingCartItemsDetailsByItem;
+        List<List> itemsDetailsInShoppingCart = shoppingCartItemsDetailsByItem;
+        List<Integer> productNumbersInProductsInCart = productsInCart;
         List<String> itemRemoved = new ArrayList<>();
         AtomicInteger shoppingCartItemIterator = new AtomicInteger(0);
         AtomicInteger shoppingCartItemNumberOnList = new AtomicInteger(0);
-        itemsDetailsInCart.forEach(item->{
+        AtomicInteger productsPageItemNumberIndex = new AtomicInteger(0);
+        itemsDetailsInShoppingCart.forEach(item->{
             if(item.getFirst().equals(itemName)){
                 shoppingCartItemNumberOnList.getAndSet(shoppingCartItemIterator.get());
-                //System.out.println(String.format("test %s",shoppingCartItemNumberOnList));
+                productsPageItemNumberIndex.getAndSet(productNumbersInProductsInCart.indexOf(Integer.parseInt(item.get(2).toString())));
+                itemRemoved.add(String.format("%s",Integer.parseInt(item.get(2).toString())));
+                itemRemoved.add(itemName);
             }
             shoppingCartItemIterator.getAndIncrement();
         });
-        shoppingCartItemsDetailsByItem.remove(shoppingCartItemNumberOnList.get());
-        return itemRemoved;
+        if(!itemRemoved.isEmpty()){
+            //Remove Product Number On ProductsInCart List And Decrease totalProductsInCart
+            productsInCart.remove(productsPageItemNumberIndex.get());
+            totalProductsInCart --;
+            //Remove Item Details On shoppingCartItemsDetailsByItem List
+            shoppingCartItemsDetailsByItem.remove(shoppingCartItemNumberOnList.get());
+            printToConsoleWithHeader(productsHeaderMessage
+                    ,String.format("Product #%s (%s), Has Been Removed From 'productsInCart' And 'shoppingCartItemsDetailsByItem' Lists."
+                            ,itemRemoved.getFirst(),itemRemoved.getLast()));
+            return itemRemoved;
+        }else {
+            throw new IllegalArgumentException(String.format("%s Item '%s' Couldn't Be Found In Shopping Cart Page Items List."
+                    ,productsHeaderMessage,itemName));
+        }
     }
 
     public void randomlyAddAllItemsToCart(){
@@ -196,6 +212,7 @@ public class ProductsPage extends Base{
         List<String> currentProductDetails = new ArrayList<>();
         currentProductDetails.add(getProductNameByProductNumber(productNumber));
         currentProductDetails.add(getProductPriceByProductNumber(productNumber));
+        currentProductDetails.add(String.format("%s",productNumber));
         currentProductDetails.add(getText(getProductAddOrRemoveToCartLocationByProductNumber(productNumber)));
         return currentProductDetails;
     }

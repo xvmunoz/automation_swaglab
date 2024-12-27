@@ -75,13 +75,15 @@ public class ShoppingCartPage extends ProductsPage{
             click(By.xpath(getItemButtonStatusLocatorByItemNumber(itemNumberOnList)));
             //Validate Item On List Has Been Removed
             if((shoppingCartPageListSizeBeforeRemovingItem - 1) == getItemsInShoppingCartList().size() ){
-                printToConsoleWithHeader(shoppingCartHeaderMessage,String.format("Product #%s (%s), Has Been Removed From Shopping Cart Page List.",itemNumberOnList,itemName));
+                printToConsoleWithHeader(shoppingCartHeaderMessage
+                        ,String.format("Product #%s (%s), Has Been Removed From Shopping Cart Page List."
+                                ,itemNumberOnList,itemName));
                 List<String> itemRemoved = new ArrayList<>();
                 itemRemoved.add(String.format("%s",itemNumberOnList));
                 itemRemoved.add(itemName);
                 return itemRemoved;
             }else {
-                throw new IllegalArgumentException(String.format("Remove action could not be completed, Item still on list."));
+                throw new IllegalArgumentException("Remove action could not be completed, Item still on list.");
             }
         }else {
             throw new NoSuchElementException(String.format("%s Item is not visible, Element -> '%s' is not present."

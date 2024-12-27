@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCartTest {
     private WebDriver driver;
@@ -39,17 +38,14 @@ public class ShoppingCartTest {
     public void addProductAndRemoveItFromShoppingCartList(){
         shoppingCartPage.printTestTitleToConsole("Add Product And Remove It From Shopping Cart List");
         singInPage.signIn(1);
-        productsPage.addToCart(1);
-        productsPage.addToCart(2);
-        productsPage.addToCart(3);
+        productsPage.addToCart(0);
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
         shoppingCartPage
                 .validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
-        List<String> itemRemoved = shoppingCartPage.removeItemFromShoppingCartList(2);
-        productsPage.removeProductDetailsFromCart(itemRemoved.getLast());
+        List<String> itemRemovedFromShoppingCartPage = shoppingCartPage.removeItemFromShoppingCartList(1);
+        List<String> itemRemovedFromProductsPage = productsPage.removeProductDetailsFromCart(itemRemovedFromShoppingCartPage.getLast());
         shoppingCartPage.goToContinueShopping();
-        //***NEED A METHOD TO REMOVE ITEM NUMBER FROM PRODUCT PAGE ITEMS NUMBERS IN CART LIST***//
         //***NEED A METHOD TO REMOVE ITEM RANDOMLY PICKED FROM SHOPPING CART PAGE LIST***//
     }
 
