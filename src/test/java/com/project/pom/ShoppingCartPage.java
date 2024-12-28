@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -66,6 +67,10 @@ public class ShoppingCartPage extends ProductsPage{
     }
 
     public List<String> removeItemFromShoppingCartList(int itemNumberOnList){
+        //If Product Is Equals To 0, A Random Product Is Going To Be Chosen From Shopping Cart Page Item List Length
+        if(itemNumberOnList == 0){
+            itemNumberOnList = chooseRandomProduct();
+        }
         //Validate Item Number Is On List And Has Remove Status
         if(validateElementIsVisible_Time(By.xpath(getItemLocatorOnListByItemNumber(itemNumberOnList)),time_out_limit_seconds)
                 && getItemButtonStatusByItemNumber(itemNumberOnList).equals("Remove")){
@@ -168,5 +173,11 @@ public class ShoppingCartPage extends ProductsPage{
         if(result.get()){
             printToConsoleWithHeader(shoppingCartHeaderMessage,"Items Added In Product Page Are Same As Items Listed In Shopping Cart Page List.");
         }
+    }
+
+    @Override
+    public Integer chooseRandomProduct(){
+        //Get an item between 1 and getItemsInShoppingCartList.size()
+        return ThreadLocalRandom.current().nextInt(1, getItemsInShoppingCartList().size() + 1);
     }
 }

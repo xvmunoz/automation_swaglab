@@ -43,7 +43,7 @@ public class ShoppingCartTest {
         shoppingCartPage.validateShoppingCartPage();
         shoppingCartPage
                 .validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
-        List<String> itemRemovedFromShoppingCartPage = shoppingCartPage.removeItemFromShoppingCartList(1);
+        List<String> itemRemovedFromShoppingCartPage = shoppingCartPage.removeItemFromShoppingCartList(0);
         List<String> itemRemovedFromProductsPage = productsPage.removeProductDetailsFromCart(itemRemovedFromShoppingCartPage.getLast());
         shoppingCartPage.goToContinueShopping();
         //***NEED A METHOD TO REMOVE ITEM RANDOMLY PICKED FROM SHOPPING CART PAGE LIST***//
@@ -67,7 +67,28 @@ public class ShoppingCartTest {
             }
         }
         productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
         shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+    }
+
+    @Test
+    public void addAllProductsAndRemoveEachOneOnShoppingCartPageList(){
+        shoppingCartPage.printTestTitleToConsole("Add All Products And Remove Each One On Shopping Cart Page List");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        while (!shoppingCartPage.getItemsInShoppingCartList().isEmpty()) {
+            if(shoppingCartPage.getItemsInShoppingCartList().isEmpty()){
+                break;
+            }else {
+                List<String> itemRemovedFromShoppingCartPage = shoppingCartPage.removeItemFromShoppingCartList(0);
+                List<String> itemRemovedFromProductsPage = productsPage.removeProductDetailsFromCart(itemRemovedFromShoppingCartPage.getLast());
+                System.out.println("\n******------******\n");
+            }
+        }
+        shoppingCartPage.goToContinueShopping();
     }
 
     @After
