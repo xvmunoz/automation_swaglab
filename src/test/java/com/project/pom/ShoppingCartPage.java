@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCartPage extends ProductsPage{
 
-    //Shopping Cart Elements Locators
+    //Shopping Cart Page Elements Locators
     By shoppingCartTitleLocator = By.xpath("//span[contains(text(),'Your Cart')]");
     By shoppingCartListLocator = By.xpath("//div[@class = 'cart_list']");
     String shoppingCartItemsLocator = "(//div[@class = 'cart_list']//descendant::div[@class = 'cart_item'])";

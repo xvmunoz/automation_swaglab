@@ -46,7 +46,6 @@ public class ShoppingCartTest {
         List<String> itemRemovedFromShoppingCartPage = shoppingCartPage.removeItemFromShoppingCartList(0);
         List<String> itemRemovedFromProductsPage = productsPage.removeProductDetailsFromCart(itemRemovedFromShoppingCartPage.getLast());
         shoppingCartPage.goToContinueShopping();
-        //***NEED A METHOD TO REMOVE ITEM RANDOMLY PICKED FROM SHOPPING CART PAGE LIST***//
     }
 
     @Test
