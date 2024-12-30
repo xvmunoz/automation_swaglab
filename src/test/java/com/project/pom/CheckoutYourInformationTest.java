@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class CheckoutYourInformationTest {
     private WebDriver driver;
@@ -26,7 +27,7 @@ public class CheckoutYourInformationTest {
 
     @Test
     public void addProductsToCartValidateItemsAddedOnShoppingCartThenStartCheckoutProcess(){
-        shoppingCartPage.printTestTitleToConsole("Add Products To Cart Validate Items Added On Shopping Cart Then Start Checkout Process");
+        checkoutYourInformationPage.printTestTitleToConsole("Add Products To Cart Validate Items Added On Shopping Cart Then Start Checkout Process");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -34,6 +35,21 @@ public class CheckoutYourInformationTest {
         shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
         shoppingCartPage.goToCheckOut();
         checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        System.out.println(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty());
+        System.out.println(checkoutYourInformationPage.validateYourInformationErrorMessageIsShown());
+    }
+
+    @Test
+    public void validateIfCustomerInfoIsNotSetThenErrorMessagePopsUp(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate If Customer Info Is Not Set, The Error Message Pops Up");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.validateIfCustomerInfoIsNotSetShowErrorMessage();
     }
 
     @After
