@@ -1,6 +1,5 @@
 package com.project.pom;
 
-import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -24,9 +23,6 @@ public class CheckoutYourInformationPage extends ShoppingCartPage{
     //Your Information Page header message
     public final String checkoutYourInformationHeaderMessage = "|From Your Information Page:";
 
-    //Instance Of Faker Class To Generate Dynamic Customer Data
-    public Faker faker = new Faker();
-
     public CheckoutYourInformationPage(WebDriver driver) {
         super(driver);
     }
@@ -43,8 +39,26 @@ public class CheckoutYourInformationPage extends ShoppingCartPage{
         }
     }
 
-    public void setCustomerInformationDetails(String firstName, String lastName, int postalCode){
-
+    public void setCustomerInformationDetails(String firstName, String lastName, String postalCode){
+        //Set Customer Information
+        //Set Customer First Name And Validate Info Is Set
+        setText(checkoutYourInformationPageFirstNameInputLocator,firstName);
+        if(getValueFromInput(checkoutYourInformationPageFirstNameInputLocator).isEmpty()){
+            throw new IllegalArgumentException(String.format("%s Fist Name has not been set."
+                    ,checkoutYourInformationHeaderMessage));
+        }
+        //Set Customer Last Name And Validate Info Is Set
+        setText(checkoutYourInformationPageLastNameInputLocator,lastName);
+        if(getValueFromInput(checkoutYourInformationPageLastNameInputLocator).isEmpty()){
+            throw new IllegalArgumentException(String.format("%s Last Name has not been set."
+                    ,checkoutYourInformationHeaderMessage));
+        }
+        //Set Customer Postal Code And Validate Info Is Set
+        setText(checkoutYourInformationPagePostalCodeInputLocator,postalCode);
+        if(getValueFromInput(checkoutYourInformationPagePostalCodeInputLocator).isEmpty()){
+            throw new IllegalArgumentException(String.format("%s Postal Code has not been set."
+                    ,checkoutYourInformationHeaderMessage));
+        }
     }
 
     public boolean validateYourInformationErrorMessageIsShown(){
@@ -54,9 +68,9 @@ public class CheckoutYourInformationPage extends ShoppingCartPage{
     }
 
     public boolean validateYourInformationCustomerInfoIsEmpty(){
-        return getText(checkoutYourInformationPageFirstNameInputLocator).isEmpty()
-                || getText(checkoutYourInformationPageLastNameInputLocator).isEmpty()
-                || getText(checkoutYourInformationPagePostalCodeInputLocator).isEmpty();
+        return getValueFromInput(checkoutYourInformationPageFirstNameInputLocator).isEmpty()
+                || getValueFromInput(checkoutYourInformationPageLastNameInputLocator).isEmpty()
+                || getValueFromInput(checkoutYourInformationPagePostalCodeInputLocator).isEmpty();
     }
 
     public boolean validateIfCustomerInfoIsNotSetShowErrorMessage(){

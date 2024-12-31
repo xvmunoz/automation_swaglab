@@ -44,6 +44,14 @@ public class Base {
         }
     }
 
+    public String getValueFromInput(By locator){
+        if(validateElementIsVisible_Time(locator,time_out_limit_seconds)){
+            return driver.findElement(locator).getAttribute("value");
+        }else {
+            throw new NoSuchElementException(String.format("Cannot get text from -> '%s', element is not found.",locator));
+        }
+    }
+
     public List<WebElement> getElements(By locator){
         return driver.findElements(locator);
     }
