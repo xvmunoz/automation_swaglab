@@ -20,21 +20,20 @@ public class CheckoutYourInformationPage extends ShoppingCartPage{
     By checkoutYourInformationPageCancelButtonLocator = By.xpath("//div[@class = 'checkout_buttons']/button[@id = 'cancel']");
     By checkoutYourInformationPageContinueButtonLocator = By.xpath("//div[@class = 'checkout_buttons']/input[@id = 'continue']");
 
-    //Your Information Page header message
-    public final String checkoutYourInformationHeaderMessage = "|From Your Information Page:";
+    //Checkout Your Information Page header message
+    public final String checkoutYourInformationHeaderMessage = "|From Checkout - Your Information Page:";
 
     public CheckoutYourInformationPage(WebDriver driver) {
         super(driver);
     }
 
-    public boolean validateCheckOutYourInformationPage(){
+    public void validateCheckOutYourInformationPage(){
         //Validate If Your Information Page Title Is Visible And Customer Information Container Is Present
         if(validateElementIsVisible_Time(checkoutYourInformationPageTitleLocator,time_out_limit_seconds)
                 && validateElementIsVisible_Time(checkoutYourInformationPageInfoContainerLocator,time_out_limit_seconds)){
-            printToConsoleWithHeader(checkoutYourInformationHeaderMessage,"Your Information Page Elements Are Present.");
-            return true;
+            printToConsoleWithHeader(checkoutYourInformationHeaderMessage,"Checkout - Your Information Page Elements Are Present.");
         }else {
-            throw new IllegalArgumentException(String.format("%s Your Information Page Title And Customer Information Container Are Not Present."
+            throw new IllegalArgumentException(String.format("%s Checkout - Your Information Page Title And Customer Information Container Are Not Present."
                     ,checkoutYourInformationHeaderMessage));
         }
     }
@@ -86,5 +85,9 @@ public class CheckoutYourInformationPage extends ShoppingCartPage{
             throw new IllegalArgumentException(String.format("Customer Information Is Not Empty."
                     ,checkoutYourInformationHeaderMessage));
         }
+    }
+
+    public void goToCheckoutOverviewPage(){
+        click(checkoutYourInformationPageContinueButtonLocator);
     }
 }

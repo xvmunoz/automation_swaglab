@@ -6,12 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
-public class CheckoutYourInformationTest {
+public class CheckoutOverviewTest {
     private WebDriver driver;
     private SingInPage singInPage;
     private ProductsPage productsPage;
     private ShoppingCartPage shoppingCartPage;
     private CheckoutYourInformationPage checkoutYourInformationPage;
+    private CheckoutOverviewPage checkoutOverviewPage;
     //Instance Of Faker Class To Generate Dynamic Customer Data
     private Faker javaFaker;
 
@@ -22,39 +23,13 @@ public class CheckoutYourInformationTest {
         productsPage = new ProductsPage(driver);
         shoppingCartPage = new ShoppingCartPage(driver);
         checkoutYourInformationPage = new CheckoutYourInformationPage(driver);
+        checkoutOverviewPage = new CheckoutOverviewPage(driver);
         javaFaker = new Faker();
-        checkoutYourInformationPage.goTo(checkoutYourInformationPage.swagLabsMainURL);
+        checkoutOverviewPage.goTo(checkoutYourInformationPage.swagLabsMainURL);
     }
 
     @Test
-    public void addProductsToCartValidateItemsAddedOnShoppingCartThenStartCheckoutProcess(){
-        checkoutYourInformationPage.printTestTitleToConsole("Add Products To Cart Validate Items Added On Shopping Cart Then Start Checkout Process");
-        singInPage.signIn(1);
-        productsPage.randomlyAddAllItemsToCart();
-        productsPage.goToShoppingCart();
-        shoppingCartPage.validateShoppingCartPage();
-        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
-        shoppingCartPage.goToCheckOut();
-        checkoutYourInformationPage.validateCheckOutYourInformationPage();
-        System.out.println(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty());
-        System.out.println(checkoutYourInformationPage.validateYourInformationErrorMessageIsShown());
-    }
-
-    @Test
-    public void validateIfCustomerInfoIsNotSetThenErrorMessagePopsUp(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate If Customer Info Is Not Set, The Error Message Pops Up");
-        singInPage.signIn(1);
-        productsPage.randomlyAddAllItemsToCart();
-        productsPage.goToShoppingCart();
-        shoppingCartPage.validateShoppingCartPage();
-        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
-        shoppingCartPage.goToCheckOut();
-        checkoutYourInformationPage.validateCheckOutYourInformationPage();
-        checkoutYourInformationPage.validateIfCustomerInfoIsNotSetShowErrorMessage();
-    }
-
-    @Test
-    public void setCustomerInformationIfInfoIsSetGoToCheckoutOverviewPage(){
+    public void validateCheckoutOverviewPageElementsArePresent(){
         checkoutYourInformationPage.printTestTitleToConsole("Set Customer Information, If Info Is Set, Go To Checkout Overview Page");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
@@ -70,6 +45,7 @@ public class CheckoutYourInformationTest {
             throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
                     ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
         checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
     }
 
     @After
