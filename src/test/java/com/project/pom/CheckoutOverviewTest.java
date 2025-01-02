@@ -30,7 +30,7 @@ public class CheckoutOverviewTest {
 
     @Test
     public void validateCheckoutOverviewPageElementsArePresent(){
-        checkoutYourInformationPage.printTestTitleToConsole("Set Customer Information, If Info Is Set, Go To Checkout Overview Page");
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Are Present");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -46,6 +46,27 @@ public class CheckoutOverviewTest {
                     ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
         checkoutYourInformationPage.goToCheckoutOverviewPage();
         checkoutOverviewPage.validateCheckoutOverviewPage();
+    }
+
+    @Test
+    public void validateCheckoutOverviewPageElementsInfo(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Info");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.setCustomerInformationDetails(javaFaker.name().firstName()
+                ,javaFaker.name().lastName()
+                ,javaFaker.address().zipCode());
+        if(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty())
+            throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
+                    ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
+        checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
+        System.out.println(checkoutOverviewPage.getCheckoutOverviewPageCartItemsDetailsList());
     }
 
     @After
