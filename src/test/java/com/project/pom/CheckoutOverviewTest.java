@@ -66,7 +66,7 @@ public class CheckoutOverviewTest {
                     ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
         checkoutYourInformationPage.goToCheckoutOverviewPage();
         checkoutOverviewPage.validateCheckoutOverviewPage();
-        System.out.println(checkoutOverviewPage.getCheckoutOverviewPageCartItemsDetailsList());
+        System.out.println(checkoutOverviewPage.getCheckoutOverviewPageCartItemsPriceSummaryTotal());
     }
 
     @After

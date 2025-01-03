@@ -1,5 +1,6 @@
 package com.project.pom;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -99,5 +100,31 @@ public class CheckoutOverviewPage extends CheckoutYourInformationPage{
 
         //Return List With All Items Details Collected On The Checkout Overview Page Cart Items List In DOM
         return checkoutOverviewPageCartItemsListDetails;
+    }
+
+    public Double getCheckoutOverviewPageCartItemsPriceSubTotal(){
+        //Declare Variable That Will Return Items Price Sub Total
+        AtomicDouble priceTotal = new AtomicDouble(0);
+        //Iterate The Items To Get The Price And Add It To Current Sub Total Value
+        getCheckoutOverviewPageCartItemsDetailsList().forEach(item -> {
+            //Split To Get Actual Item Price Value
+            String[] price = item.getLast().toString().split("[$]");
+            priceTotal.getAndSet(priceTotal.get() + Double.parseDouble(price[1]));
+        });
+        //Return Items Price Sub Total
+        return Double.parseDouble(priceTotal.toString());
+    }
+
+    public Double getCheckoutOverviewPageCurrentTaxValue(){
+        //Get Tax Label Value And Split To Get Current Tax Value
+        String[] currentTaxValue = getText(checkoutOverviewPageSummaryTaxLabelLocator).split("[$]");
+        //Return Current Tax Value
+        return Double.parseDouble(currentTaxValue[1]);
+    }
+
+    public Double getCheckoutOverviewPageCartItemsPriceSummaryTotal(){
+        //Create An Addition Between Items Price Sub Total And Current Tax Value To Get Price Summary Total
+        //Return Price Summary Total
+        return getCheckoutOverviewPageCartItemsPriceSubTotal() + getCheckoutOverviewPageCurrentTaxValue();
     }
 }
