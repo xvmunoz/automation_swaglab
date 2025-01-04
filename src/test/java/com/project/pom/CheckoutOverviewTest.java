@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 public class CheckoutOverviewTest {
     private WebDriver driver;
     private SingInPage singInPage;
@@ -55,6 +57,7 @@ public class CheckoutOverviewTest {
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
+        List<List> shoppingCartItemListDetails = shoppingCartPage.getShoppingCartPageItemsDetailsList();
         shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
         shoppingCartPage.goToCheckOut();
         checkoutYourInformationPage.validateCheckOutYourInformationPage();
@@ -66,7 +69,7 @@ public class CheckoutOverviewTest {
                     ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
         checkoutYourInformationPage.goToCheckoutOverviewPage();
         checkoutOverviewPage.validateCheckoutOverviewPage();
-        System.out.println(checkoutOverviewPage.getCheckoutOverviewPageCartItemsPriceSummaryTotal());
+        checkoutOverviewPage.validateItemsOnShoppingCartAreDisplayedOnCheckoutOverviewPageCartItemsList(shoppingCartItemListDetails);
     }
 
     @After

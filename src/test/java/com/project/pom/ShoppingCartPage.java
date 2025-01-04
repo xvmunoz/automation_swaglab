@@ -110,6 +110,11 @@ public class ShoppingCartPage extends ProductsPage{
                 ,getItemLocatorOnListByItemNumber(itemNumberOnList))));
     }
 
+    public String getItemPriceByItemNumber(int itemNumberOnList){
+        return getText(By.xpath(String.format("%s//descendant::div[@class = 'inventory_item_price']"
+                ,getItemLocatorOnListByItemNumber(itemNumberOnList))));
+    }
+
     public String getItemNameLocatorByItemNumber(int itemNumberOnList){
         return String.format("%s//descendant::div[@class = 'inventory_item_name']"
                 ,getItemLocatorOnListByItemNumber(itemNumberOnList));
@@ -121,6 +126,46 @@ public class ShoppingCartPage extends ProductsPage{
 
     public String getItemButtonStatusByItemNumber(int itemNumberOnList){
         return getText(By.xpath(String.format("%s//descendant::button",getItemLocatorOnListByItemNumber(itemNumberOnList))));
+    }
+
+    public List<String> getShoppingCartPageItemDetailsByItemNumber(int itemInListNumber){
+
+        //List That Collects All Item Details
+        List<String> shoppingCartPageItemListDetails = new ArrayList<>();
+
+        //Add Item Number
+        shoppingCartPageItemListDetails.add(String.format("%s",itemInListNumber));
+        //Add Item Name
+        shoppingCartPageItemListDetails
+                .add(getItemNameByItemNumber(itemInListNumber));
+        //Add Item Price
+        shoppingCartPageItemListDetails
+                .add(getItemPriceByItemNumber(itemInListNumber));
+
+        //Return List With Item Details
+        return shoppingCartPageItemListDetails;
+    }
+
+    public List<List> getShoppingCartPageItemsDetailsList(){
+
+        //List That Collects Details By Each Item On The Shopping Cart Page Items List In DOM
+        List<List> shoppingCarPageItemsListDetails = new ArrayList<>();
+
+        //Iterator For Each Item
+        AtomicInteger shoppingCartPageItemsListIterator = new AtomicInteger(0);
+
+        //Iterate And Get Details By Each Item Listed On The Shopping Cart Page Items List In DOM
+        getItemsInShoppingCartList().forEach(item ->{
+            //Increment Item Number In List
+            shoppingCartPageItemsListIterator.getAndIncrement();
+            //Add Item Details By Item Number In List
+            shoppingCarPageItemsListDetails
+                    .add(getShoppingCartPageItemDetailsByItemNumber(Integer
+                            .parseInt(shoppingCartPageItemsListIterator.toString())));
+        });
+
+        //Return List With All Items Details Collected On The Shopping Cart Page Items List In DOM
+        return shoppingCarPageItemsListDetails;
     }
 
     //Validate If Shopping Cart List Has Items Added In Product Page

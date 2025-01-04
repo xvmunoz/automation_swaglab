@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CheckoutOverviewPage extends CheckoutYourInformationPage{
@@ -126,5 +127,40 @@ public class CheckoutOverviewPage extends CheckoutYourInformationPage{
         //Create An Addition Between Items Price Sub Total And Current Tax Value To Get Price Summary Total
         //Return Price Summary Total
         return getCheckoutOverviewPageCartItemsPriceSubTotal() + getCheckoutOverviewPageCurrentTaxValue();
+    }
+
+    public void validateItemsOnShoppingCartAreDisplayedOnCheckoutOverviewPageCartItemsList(List<List> shoppingCartItemList){
+        //Create Flag That Will Change To True If Checkout Overview Page Cart Item Is On Shopping Cart Items List
+        AtomicBoolean checkoutOverviewPageCartItemConfirmation = new AtomicBoolean(false);
+
+        //Iterate Inside Checkout Overview Page Cart Items List And Validate Items Displayed Were On Shopping Cart Items List
+        getCheckoutOverviewPageCartItemsDetailsList().forEach(checkoutOverviewPageCartItem -> {
+            checkoutOverviewPageCartItemConfirmation.getAndSet(false);
+            //Iterate Inside Shopping Cart Items List
+            shoppingCartItemList.forEach(shoppingCartItem -> {
+                //Validate Checkout Overview Page Cart Item Is On Shopping Cart Items List
+                if(checkoutOverviewPageCartItem.get(1).equals(shoppingCartItem.get(1))){
+                    //Turn checkoutOverviewPageCartItemConfirmation Flag To True Since Item Exist On Shopping Cart Items List
+                    checkoutOverviewPageCartItemConfirmation.getAndSet(true);
+                    //Validate Item Name
+                    printToConsoleWithHeader(productsHeaderMessage,"Checking Item Name...");
+                    if(!checkoutOverviewPageCartItem.get(1).equals(shoppingCartItem.get(1))) throw new IllegalArgumentException(String
+                            .format("%s Checkout Overview Page Cart Item ('%s') Name Is Not Same As Shopping Cart Item ('%s') Name."
+                            ,checkoutOverviewPageHeaderMessage,checkoutOverviewPageCartItem.get(1),shoppingCartItem.get(1)));
+                    //Validate Item Price
+                    printToConsoleWithHeader(productsHeaderMessage,"Checking Item Price...");
+                    if(!checkoutOverviewPageCartItem.getLast().equals(shoppingCartItem.getLast())) throw new IllegalArgumentException(String
+                            .format("%s Checkout Overview Page Cart Item ('%s') Price ['%s'] Is Not Same As Shopping Cart Item ('%s') Price ['%s']."
+                            ,checkoutOverviewPageHeaderMessage,checkoutOverviewPageCartItem.get(1),checkoutOverviewPageCartItem.getLast()
+                                    ,shoppingCartItem.get(1),shoppingCartItem.getLast()));
+                }
+            });
+            //Validate If checkoutOverviewPageCartItemConfirmation Flag Is False Throw An Error Since Checkout Overview Page Cart Item Is Not On Shopping Cart Items List
+            if(!checkoutOverviewPageCartItemConfirmation.get()) throw new IllegalArgumentException(String.format("%s Checkout Overview Page Cart Item ('%s') Is Not On Shopping Cart Items List."
+                    ,checkoutOverviewPageHeaderMessage,checkoutOverviewPageCartItem.get(1)));
+            //If Items Match Print Success Info Validation Message
+            printToConsoleWithHeader(productsHeaderMessage,"Item Confirmed On Shopping Cart Is On Checkout Overview Page Cart Items List.");
+        });
+
     }
 }
