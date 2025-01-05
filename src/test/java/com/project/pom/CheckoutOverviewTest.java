@@ -72,6 +72,27 @@ public class CheckoutOverviewTest {
         checkoutOverviewPage.validateItemsOnShoppingCartAreDisplayedOnCheckoutOverviewPageCartItemsList(shoppingCartItemListDetails);
     }
 
+    @Test
+    public void validateCheckoutOverviewPageSummaryValuesInfoMatches(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page Summary Values Info Matches");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.setCustomerInformationDetails(javaFaker.name().firstName()
+                ,javaFaker.name().lastName()
+                ,javaFaker.address().zipCode());
+        if(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty())
+            throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
+                    ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
+        checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPageSummaryValuesMatch();
+    }
+
     @After
     public void tearDown(){
         driver.close();

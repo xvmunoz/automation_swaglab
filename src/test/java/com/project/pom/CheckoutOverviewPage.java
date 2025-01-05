@@ -163,4 +163,42 @@ public class CheckoutOverviewPage extends CheckoutYourInformationPage{
         });
 
     }
+
+    public void validateCheckoutOverviewPageSummaryValuesMatch(){
+        //Split Checkout Overview Page Summary Subtotal Label Value To Get Price Value Only
+        String[] checkoutOverviewPageSummarySubtotalLabelValue = getText(checkoutOverviewPageSummarySubtotalLabelLocator)
+                .split("[$]");
+        //Split Checkout Overview Page Summary Tax Label Value To Get Price Value Only
+        String[] checkoutOverviewPageSummaryTaxLabelValue = getText(checkoutOverviewPageSummaryTaxLabelLocator)
+                .split("[$]");
+        //Split Checkout Overview Page Summary Total Label Value To Get Price Value Only
+        String[] checkoutOverviewPageSummaryTotalLabelValue = getText(checkoutOverviewPageSummaryTotalLabelLocator)
+                .split("[$]");
+
+        //Validate Checkout Overview Page Summary Values Are Expected
+        //Check Subtotal Value (Parse To Double To Compare Expected Value)
+        Double finalSubtotalValue = Double.parseDouble(checkoutOverviewPageSummarySubtotalLabelValue[1]);
+        if(!finalSubtotalValue.equals(getCheckoutOverviewPageCartItemsPriceSubTotal()))
+            throw new IllegalArgumentException(String.format("%s Checkout Overview Page Summary Subtotal '(Current: %s)' Value Is Not Expected '(Expected: %s)'."
+                    ,checkoutOverviewPageHeaderMessage
+                    ,finalSubtotalValue
+                    ,getCheckoutOverviewPageCartItemsPriceSubTotal()));
+        //Check Tax Value (Parse To Double To Compare Expected Value)
+        Double finalTaxValue = Double.parseDouble(checkoutOverviewPageSummaryTaxLabelValue[1]);
+        if(!finalTaxValue.equals(getCheckoutOverviewPageCurrentTaxValue()))
+            throw new IllegalArgumentException(String.format("%s Checkout Overview Page Tax '(Current: %s)' Value Is Not Expected '(Expected: %s)'."
+                    ,checkoutOverviewPageHeaderMessage
+                    ,finalTaxValue
+                    ,getCheckoutOverviewPageCurrentTaxValue()));
+        //Check Total Value (Parse To Double To Compare Expected Value)
+        Double finalTotalValue = Double.parseDouble(checkoutOverviewPageSummaryTotalLabelValue[1]);
+        if(!finalTotalValue.equals(getCheckoutOverviewPageCartItemsPriceSummaryTotal()))
+            throw new IllegalArgumentException(String.format("%s Checkout Overview Page Total '(Current: %s)' Value Is Not Expected '(Expected: %s)'."
+                    ,checkoutOverviewPageHeaderMessage
+                    ,finalTotalValue
+                    ,getCheckoutOverviewPageCartItemsPriceSummaryTotal()));
+
+        //Print Success Message
+        printToConsoleWithHeader(checkoutOverviewPageHeaderMessage,"Summary Values Info, Match.");
+    }
 }
