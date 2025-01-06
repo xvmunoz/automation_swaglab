@@ -93,6 +93,54 @@ public class CheckoutOverviewTest {
         checkoutOverviewPage.validateCheckoutOverviewPageSummaryValuesMatch();
     }
 
+    @Test
+    public void validateCheckoutOverviewPageAndCancel(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page And Cancel");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        List<List> shoppingCartItemListDetails = shoppingCartPage.getShoppingCartPageItemsDetailsList();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.setCustomerInformationDetails(javaFaker.name().firstName()
+                ,javaFaker.name().lastName()
+                ,javaFaker.address().zipCode());
+        if(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty())
+            throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
+                    ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
+        checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
+        checkoutOverviewPage.validateItemsOnShoppingCartAreDisplayedOnCheckoutOverviewPageCartItemsList(shoppingCartItemListDetails);
+        checkoutOverviewPage.validateCheckoutOverviewPageSummaryValuesMatch();
+        checkoutOverviewPage.checkoutOverviewPageCancelCheckout();
+    }
+
+    @Test
+    public void validateCheckoutOverviewPageAndFinish(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page And Finish");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        List<List> shoppingCartItemListDetails = shoppingCartPage.getShoppingCartPageItemsDetailsList();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.setCustomerInformationDetails(javaFaker.name().firstName()
+                ,javaFaker.name().lastName()
+                ,javaFaker.address().zipCode());
+        if(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty())
+            throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
+                    ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
+        checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
+        checkoutOverviewPage.validateItemsOnShoppingCartAreDisplayedOnCheckoutOverviewPageCartItemsList(shoppingCartItemListDetails);
+        checkoutOverviewPage.validateCheckoutOverviewPageSummaryValuesMatch();
+        checkoutOverviewPage.checkoutOverviewPageFinishCheckout();
+    }
+
     @After
     public void tearDown(){
         driver.close();

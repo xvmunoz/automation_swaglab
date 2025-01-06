@@ -201,4 +201,14 @@ public class CheckoutOverviewPage extends CheckoutYourInformationPage{
         //Print Success Message
         printToConsoleWithHeader(checkoutOverviewPageHeaderMessage,"Summary Values Info, Match.");
     }
+
+    //Action To Clicks On Checkout Overview Page Cancel Button To Cancel Checkout
+    public void checkoutOverviewPageCancelCheckout(){
+        click(checkoutOverviewPageCancelButtonLocator);
+    }
+
+    //Action To Clicks On Checkout Overview Page Finish Button To Finish Checkout
+    public void checkoutOverviewPageFinishCheckout(){
+        click(checkoutOverviewPageFinishButtonLocator);
+    }
 }

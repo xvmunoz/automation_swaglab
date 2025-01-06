@@ -31,7 +31,7 @@ public class CheckoutYourInformationPage extends ShoppingCartPage{
         //Validate If Your Information Page Title Is Visible And Customer Information Container Is Present
         if(validateElementIsVisible_Time(checkoutYourInformationPageTitleLocator,time_out_limit_seconds)
                 && validateElementIsVisible_Time(checkoutYourInformationPageInfoContainerLocator,time_out_limit_seconds)){
-            printToConsoleWithHeader(checkoutYourInformationHeaderMessage,"Checkout - Your Information Page Elements Are Present.");
+            printToConsoleWithHeader(checkoutYourInformationHeaderMessage,"Checkout - Your Information Page Elements, Are Present.");
         }else {
             throw new IllegalArgumentException(String.format("%s Checkout - Your Information Page Title And Customer Information Container Are Not Present."
                     ,checkoutYourInformationHeaderMessage));
