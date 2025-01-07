@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ProductsPage extends Base{
+public class ProductsPage extends MenuPage{
 
     //Products Page Locators
     By inventoryProductsListLocator = By.xpath("//div[@class = 'inventory_list']");

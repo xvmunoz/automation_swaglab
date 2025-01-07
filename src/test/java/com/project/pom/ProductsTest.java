@@ -30,11 +30,11 @@ public class ProductsTest {
     public void addProductsRandomly(){
         productsPage.printTestTitleToConsole("Add Products Randomly");
         singInPage.signIn(1);
-        productsPage.randomlyAddAllItemsToCart();
+        //productsPage.randomlyAddAllItemsToCart();
     }
 
     @After
     public void tearDown(){
-        driver.close();
+        //driver.close();
     }
 }

@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ShoppingCartPage extends ProductsPage{
+public class ShoppingCartPage extends ProductDetailsPage{
 
     //Shopping Cart Page Elements Locators
     By shoppingCartTitleLocator = By.xpath("//span[contains(text(),'Your Cart')]");
