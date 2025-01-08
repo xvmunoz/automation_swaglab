@@ -34,7 +34,7 @@ public class CheckoutCompleteTest {
 
     @Test
     public void validateCheckoutCompletePageElementsArePresent(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Complete Page Elements Are Present");
+        checkoutCompletePage.printTestTitleToConsole("Validate Checkout Complete Page Elements Are Present");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -52,6 +52,32 @@ public class CheckoutCompleteTest {
         checkoutOverviewPage.validateCheckoutOverviewPage();
         checkoutOverviewPage.checkoutOverviewPageFinishCheckout();
         checkoutCompletePage.validateCheckoutCompletePage();
+    }
+
+    @Test
+    public void validateLogoutActionFromCheckoutCompletePage(){
+        checkoutCompletePage.printTestTitleToConsole("Validate Logout Action From Checkout Complete Page");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.setCustomerInformationDetails(javaFaker.name().firstName()
+                ,javaFaker.name().lastName()
+                ,javaFaker.address().zipCode());
+        if(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty())
+            throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
+                    ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
+        checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
+        checkoutOverviewPage.checkoutOverviewPageFinishCheckout();
+        checkoutCompletePage.validateCheckoutCompletePage();
+        checkoutCompletePage.menuPageOpenMenu();
+        checkoutCompletePage.validateMenuPage();
+        checkoutCompletePage.menuPageLogout();
+        singInPage.validateSignInPage();
     }
 
     @After

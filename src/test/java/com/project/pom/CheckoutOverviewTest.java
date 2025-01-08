@@ -32,7 +32,7 @@ public class CheckoutOverviewTest {
 
     @Test
     public void validateCheckoutOverviewPageElementsArePresent(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Are Present");
+        checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Are Present");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -52,7 +52,7 @@ public class CheckoutOverviewTest {
 
     @Test
     public void validateCheckoutOverviewPageElementsInfo(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Info");
+        checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Info");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -74,7 +74,7 @@ public class CheckoutOverviewTest {
 
     @Test
     public void validateCheckoutOverviewPageSummaryValuesInfoMatches(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page Summary Values Info Matches");
+        checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page Summary Values Info Matches");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -95,7 +95,7 @@ public class CheckoutOverviewTest {
 
     @Test
     public void validateCheckoutOverviewPageAndCancel(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page And Cancel");
+        checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page And Cancel");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -119,7 +119,7 @@ public class CheckoutOverviewTest {
 
     @Test
     public void validateCheckoutOverviewPageAndFinish(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate Checkout Overview Page And Finish");
+        checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page And Finish");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
@@ -139,6 +139,31 @@ public class CheckoutOverviewTest {
         checkoutOverviewPage.validateItemsOnShoppingCartAreDisplayedOnCheckoutOverviewPageCartItemsList(shoppingCartItemListDetails);
         checkoutOverviewPage.validateCheckoutOverviewPageSummaryValuesMatch();
         checkoutOverviewPage.checkoutOverviewPageFinishCheckout();
+    }
+
+    @Test
+    public void validateLogoutActionFromCheckoutOverviewPage(){
+        checkoutOverviewPage.printTestTitleToConsole("Validate Logout Action From Checkout Overview Page");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        List<List> shoppingCartItemListDetails = shoppingCartPage.getShoppingCartPageItemsDetailsList();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.setCustomerInformationDetails(javaFaker.name().firstName()
+                ,javaFaker.name().lastName()
+                ,javaFaker.address().zipCode());
+        if(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty())
+            throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
+                    ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
+        checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
+        checkoutOverviewPage.menuPageOpenMenu();
+        checkoutOverviewPage.validateMenuPage();
+        checkoutOverviewPage.menuPageLogout();
+        singInPage.validateSignInPage();
     }
 
     @After

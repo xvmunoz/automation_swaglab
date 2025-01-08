@@ -20,6 +20,7 @@ public class SingInTest {
     @Test
     public void signInTest() {
         singInPage.printTestTitleToConsole("SignIn Test");
+        singInPage.validateSignInPage();
         singInPage.signIn(1);
     }
 

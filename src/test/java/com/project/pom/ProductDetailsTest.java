@@ -46,8 +46,20 @@ public class ProductDetailsTest {
         productsPage.validateProductStatusRemovedAfterProductDetailsByProductNumber(selectedProduct, productAction, productDetailsPage.totalItemsInCart);
     }
 
+    @Test
+    public void validateLogoutActionFromProductsDetailsPage(){
+        productDetailsPage.printTestTitleToConsole("Validate Logout Action From Products Details Page");
+        singInPage.signIn(1);
+        selectedProduct = productsPage.addToCart(0);
+        productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
+        productDetailsPage.menuPageOpenMenu();
+        productDetailsPage.validateMenuPage();
+        productDetailsPage.menuPageLogout();
+        singInPage.validateSignInPage();
+    }
+
     @After
     public void tearDown(){
-        driver.close();
+        //driver.close();
     }
 }

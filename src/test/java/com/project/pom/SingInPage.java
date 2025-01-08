@@ -1,6 +1,7 @@
 package com.project.pom;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -10,6 +11,10 @@ import java.util.Random;
 public class SingInPage extends Base {
 
     //SingIn Page Locators
+    By singInPageLoginContainerLocator = By.xpath("//div[@class = 'login_container']");
+    By signInPageLoginLogoLocator = By.xpath("//div[@class = 'login_logo']");
+    By singInPageLoginWrapperLocator = By.xpath("//div[@class = 'login_wrapper']");
+    By singInPageLoginWrapperInnerLocator = By.xpath("//div[@class = 'login_wrapper']/div[@class = 'login_wrapper-inner']");
     By loginCredentialsLocator = By.xpath("//div[@id='login_credentials']");
     By loginPasswordsLocator = By.xpath("//div[@class='login_password']");
     By usersToSignInLocator = By.xpath("//div[@id='login_credentials']/text()");
@@ -27,6 +32,20 @@ public class SingInPage extends Base {
 
     public SingInPage(WebDriver driver) {
         super(driver);
+    }
+
+    public void validateSignInPage(){
+        //Validate Sign In Page Elements Are Displayed
+        if(validateElementIsVisible_Time(singInPageLoginContainerLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(signInPageLoginLogoLocator,time_out_limit_milliseconds)
+                && validateElementIsVisible_Time(singInPageLoginWrapperLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(singInPageLoginWrapperInnerLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(loginCredentialsLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(loginPasswordsLocator, time_out_limit_seconds)){
+                printToConsoleWithHeader(signInHeaderMessage,"Sing In Page Elements, Are Present.");
+        }else {
+            throw new NoSuchElementException(String.format("%s Sign In Page Elements Are Not Present.",signInHeaderMessage));
+        }
     }
 
     public List<WebElement> getAvailableUsers(){

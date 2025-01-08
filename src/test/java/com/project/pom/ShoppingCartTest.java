@@ -90,6 +90,18 @@ public class ShoppingCartTest {
         shoppingCartPage.goToContinueShopping();
     }
 
+    @Test
+    public void validateLogoutActionFromShoppingCartPage(){
+        shoppingCartPage.printTestTitleToConsole("Validate Logout Action From Shopping Cart Page");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.menuPageOpenMenu();
+        shoppingCartPage.validateMenuPage();
+        shoppingCartPage.menuPageLogout();
+        singInPage.validateSignInPage();
+    }
+
     @After
     public void tearDown(){
         driver.close();

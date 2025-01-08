@@ -24,24 +24,34 @@ public class MenuPage extends SingInPage{
     }
 
     public void validateMenuPage(){
-        //Validate Menu Page Burger Menu Button Element Is Displayed
-        if(validateElementIsVisible_Time(menuPageBurgerMenuButtonLocator,time_out_limit_seconds)){
-            //Validate When Clicking The Menu Page Options Are Displayed
-            click(menuPageBurgerMenuButtonLocator);
-            if(validateElementIsVisible_Time(menuPageBurgerMenuWrapLocator,time_out_limit_seconds)
-                    && validateElementIsVisible_Time(menuPageBurgerMenuCrossButtonLocator,time_out_limit_milliseconds)
-                    && validateElementIsVisible_Time(By.xpath(menuPageBurgerMenuItemListLocator),time_out_limit_seconds)
-                    && validateElementIsVisible_Time(menuPageBurgerMenuAllItemsLinkLocator,time_out_limit_seconds)
-                    && validateElementIsVisible_Time(menuPageBurgerMenuAboutLinkLocator,time_out_limit_seconds)
-                    && validateElementIsVisible_Time(menuPageBurgerMenuLogoutLinkLocator, time_out_limit_seconds)
-                    && validateElementIsVisible_Time(menuPageBurgerMenuResetLinkLocator,time_out_limit_seconds)){
-                printToConsoleWithHeader(menuPageHeaderMessage,"Menu Page Elements, Are Present.");
-            }else{
-                throw new NoSuchElementException(String.format("%s After Click On Menu Burger Button, Menu Page Elements Are Not Present."
-                        ,menuPageHeaderMessage));
-            }
+        //Validate Menu Page Options Are Displayed
+        if(validateElementIsVisible_Time(menuPageBurgerMenuWrapLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(menuPageBurgerMenuCrossButtonLocator,time_out_limit_milliseconds)
+                && validateElementIsVisible_Time(By.xpath(menuPageBurgerMenuItemListLocator),time_out_limit_seconds)
+                && validateElementIsVisible_Time(menuPageBurgerMenuAllItemsLinkLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(menuPageBurgerMenuAboutLinkLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(menuPageBurgerMenuLogoutLinkLocator, time_out_limit_seconds)
+                && validateElementIsVisible_Time(menuPageBurgerMenuResetLinkLocator,time_out_limit_seconds)){
+            printToConsoleWithHeader(menuPageHeaderMessage,"Menu Page Elements, Are Present.");
+        }else{
+            throw new NoSuchElementException(String.format("%s Menu Page Elements Are Not Present."
+                    ,menuPageHeaderMessage));
+        }
+    }
+
+    public void menuPageOpenMenu(){
+        //Click On Burger Menu Page Button
+        click(menuPageBurgerMenuButtonLocator);
+    }
+
+    public void menuPageLogout(){
+        //Validate If Menu Is Open and Logout Link Locator Is Displayed
+        if(validateElementIsVisible_Time(menuPageBurgerMenuLogoutLinkLocator,time_out_limit_seconds)){
+            click(menuPageBurgerMenuLogoutLinkLocator);
+            printToConsoleWithHeader(menuPageHeaderMessage,"Logout action performed.");
         }else {
-            throw new NoSuchElementException(String.format("%s Menu Page Elements Are Not Present.",menuPageHeaderMessage));
+            throw new NoSuchElementException(String.format("%s Menu Page Logout Link Locator (%s) Element Is Not Present."
+                    ,menuPageHeaderMessage,menuPageBurgerMenuLogoutLinkLocator));
         }
     }
 }

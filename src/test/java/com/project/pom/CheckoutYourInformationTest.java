@@ -72,6 +72,22 @@ public class CheckoutYourInformationTest {
         checkoutYourInformationPage.goToCheckoutOverviewPage();
     }
 
+    @Test
+    public void validateLogoutActionFromCheckoutYourInformationPage(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Logout Action From Checkout Your Information Page");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.menuPageOpenMenu();
+        checkoutYourInformationPage.validateMenuPage();
+        checkoutYourInformationPage.menuPageLogout();
+        singInPage.validateSignInPage();
+    }
+
     @After
     public void tearDown(){
         driver.close();

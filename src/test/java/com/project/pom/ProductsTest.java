@@ -30,11 +30,21 @@ public class ProductsTest {
     public void addProductsRandomly(){
         productsPage.printTestTitleToConsole("Add Products Randomly");
         singInPage.signIn(1);
-        //productsPage.randomlyAddAllItemsToCart();
+        productsPage.randomlyAddAllItemsToCart();
+    }
+
+    @Test
+    public void validateLogoutActionFromProductsPage(){
+        productsPage.printTestTitleToConsole("Validate Logout Action From Products Page");
+        singInPage.signIn(1);
+        productsPage.menuPageOpenMenu();
+        productsPage.validateMenuPage();
+        productsPage.menuPageLogout();
+        singInPage.validateSignInPage();
     }
 
     @After
     public void tearDown(){
-        //driver.close();
+        driver.close();
     }
 }

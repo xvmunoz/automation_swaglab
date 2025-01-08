@@ -7,8 +7,9 @@ import org.openqa.selenium.WebDriver;
 
 public class MenuTest {
     private WebDriver driver;
-    SingInPage singInPage;
-    MenuPage menuPage;
+    private SingInPage singInPage;
+    private MenuPage menuPage;
+
     @Before
     public void setUp(){
         singInPage = new SingInPage(driver);
@@ -19,9 +20,20 @@ public class MenuTest {
 
     @Test
     public void validateMenuElements() {
-        singInPage.printTestTitleToConsole("Validate Menu Elements");
+        menuPage.printTestTitleToConsole("Validate Menu Elements");
         singInPage.signIn(1);
+        menuPage.menuPageOpenMenu();
         menuPage.validateMenuPage();
+    }
+
+    @Test
+    public void validateLogoutActionFromMenu(){
+        menuPage.printTestTitleToConsole("Validate Logout Action From Menu");
+        singInPage.signIn(1);
+        menuPage.menuPageOpenMenu();
+        menuPage.validateMenuPage();
+        menuPage.menuPageLogout();
+        singInPage.validateSignInPage();
     }
 
     @After
