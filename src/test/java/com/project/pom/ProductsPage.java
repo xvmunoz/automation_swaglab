@@ -12,7 +12,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProductsPage extends MenuPage{
 
     //Products Page Locators
-    By inventoryProductsListLocator = By.xpath("//div[@class = 'inventory_list']");
+    By productsPageAppLogoLocator = By.xpath("//div[@class = 'app_logo']");
+    By productsPageHeaderContainerLocator = By.xpath("//div[@class = 'header_container']");
+    By productsPageSecondaryHeaderContainerLocator = By.xpath("//div[@class = 'header_secondary_container']");
+    By productsPageProductSortContainerLocator = By.xpath("//div[@class = 'header_secondary_container']//descendant::select[contains(@class, 'product_sort')]");
+    By productsPageInventoryContainerLocator = By.xpath("//div[@class = 'inventory_container']");
+    By productsPageShoppingCartLocator = By.xpath("//div[@class = 'inventory_container']");
+    By inventoryProductsListLocator = By.xpath("//div[@class = 'inventory_container']/div[@class = 'inventory_list']");
     By inventoryProductsLocator = By.xpath("//div[@class = 'inventory_item']");
     By addToCartProductLocator = By.xpath("//button[text() = 'Add to cart']");
     String inventoryProductNameLocator = "(//div[contains(@class, 'inventory_item_name')])";
@@ -32,6 +38,22 @@ public class ProductsPage extends MenuPage{
 
     public ProductsPage(WebDriver driver) {
         super(driver);
+    }
+
+    public void validateProductsPage(){
+        //Validate Products Page Options Are Displayed
+        if(validateElementIsVisible_Time(productsPageAppLogoLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(productsPageHeaderContainerLocator,time_out_limit_milliseconds)
+                && validateElementIsVisible_Time(productsPageSecondaryHeaderContainerLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(productsPageProductSortContainerLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(productsPageInventoryContainerLocator,time_out_limit_seconds)
+                && validateElementIsVisible_Time(productsPageShoppingCartLocator, time_out_limit_seconds)
+                && validateElementIsVisible_Time(inventoryProductsListLocator,time_out_limit_seconds)){
+            printToConsoleWithHeader(productsHeaderMessage,"Products Page Elements, Are Present.");
+        }else{
+            throw new org.openqa.selenium.NoSuchElementException(String.format("%s Products Page Elements Are Not Present."
+                    ,productsHeaderMessage));
+        }
     }
 
     // this is the number of total available products, need method or som to refresh available products to add

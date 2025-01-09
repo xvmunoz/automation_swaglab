@@ -47,8 +47,21 @@ public class ProductDetailsTest {
     }
 
     @Test
-    public void validateLogoutActionFromProductsDetailsPage(){
-        productDetailsPage.printTestTitleToConsole("Validate Logout Action From Products Details Page");
+    public void validateMenuAllItemsActionFromProductsDetailsPage(){
+        productDetailsPage.printTestTitleToConsole("Validate Menu All Items Action From Products Details Page");
+        singInPage.signIn(1);
+        productsPage.validateProductsPage();
+        selectedProduct = productsPage.addToCart(0);
+        productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
+        productDetailsPage.menuPageOpenMenu();
+        productDetailsPage.validateMenuPage();
+        productDetailsPage.menuPageAllItems();
+        productsPage.validateProductsPage();
+    }
+
+    @Test
+    public void validateMenuLogoutActionFromProductsDetailsPage(){
+        productDetailsPage.printTestTitleToConsole("Validate Menu Logout Action From Products Details Page");
         singInPage.signIn(1);
         selectedProduct = productsPage.addToCart(0);
         productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
@@ -60,6 +73,6 @@ public class ProductDetailsTest {
 
     @After
     public void tearDown(){
-        //driver.close();
+        driver.close();
     }
 }

@@ -44,14 +44,26 @@ public class MenuPage extends SingInPage{
         click(menuPageBurgerMenuButtonLocator);
     }
 
+    public void menuPageAllItems(){
+        //Validate If Menu Is Open and Logout Link Locator Is Displayed
+        if(validateElementIsVisible_Time(menuPageBurgerMenuAllItemsLinkLocator,time_out_limit_seconds)){
+            click(menuPageBurgerMenuAllItemsLinkLocator);
+            printToConsoleWithHeader(menuPageHeaderMessage,"'All Items' action performed.");
+        }else {
+            throw new NoSuchElementException(String.format("%s Menu Page 'All Items' Link Locator (%s) Element Is Not Present."
+                    ,menuPageHeaderMessage,menuPageBurgerMenuAllItemsLinkLocator));
+        }
+    }
+
     public void menuPageLogout(){
         //Validate If Menu Is Open and Logout Link Locator Is Displayed
         if(validateElementIsVisible_Time(menuPageBurgerMenuLogoutLinkLocator,time_out_limit_seconds)){
             click(menuPageBurgerMenuLogoutLinkLocator);
-            printToConsoleWithHeader(menuPageHeaderMessage,"Logout action performed.");
+            printToConsoleWithHeader(menuPageHeaderMessage,"'Logout' action performed.");
         }else {
-            throw new NoSuchElementException(String.format("%s Menu Page Logout Link Locator (%s) Element Is Not Present."
+            throw new NoSuchElementException(String.format("%s Menu Page 'Logout' Link Locator (%s) Element Is Not Present."
                     ,menuPageHeaderMessage,menuPageBurgerMenuLogoutLinkLocator));
         }
     }
+
 }

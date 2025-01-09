@@ -142,8 +142,33 @@ public class CheckoutOverviewTest {
     }
 
     @Test
-    public void validateLogoutActionFromCheckoutOverviewPage(){
-        checkoutOverviewPage.printTestTitleToConsole("Validate Logout Action From Checkout Overview Page");
+    public void validateMenuAllItemsActionFromCheckoutOverviewPage(){
+        checkoutOverviewPage.printTestTitleToConsole("Validate Menu All Items Action From Checkout Overview Page");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        List<List> shoppingCartItemListDetails = shoppingCartPage.getShoppingCartPageItemsDetailsList();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.setCustomerInformationDetails(javaFaker.name().firstName()
+                ,javaFaker.name().lastName()
+                ,javaFaker.address().zipCode());
+        if(checkoutYourInformationPage.validateYourInformationCustomerInfoIsEmpty())
+            throw new IllegalArgumentException(String.format("%s Customer Info Were Not Set."
+                    ,checkoutYourInformationPage.checkoutYourInformationHeaderMessage));
+        checkoutYourInformationPage.goToCheckoutOverviewPage();
+        checkoutOverviewPage.validateCheckoutOverviewPage();
+        checkoutOverviewPage.menuPageOpenMenu();
+        checkoutOverviewPage.validateMenuPage();
+        checkoutOverviewPage.menuPageAllItems();
+        productsPage.validateProductsPage();
+    }
+
+    @Test
+    public void validateMenuLogoutActionFromCheckoutOverviewPage(){
+        checkoutOverviewPage.printTestTitleToConsole("Validate Menu Logout Action From Checkout Overview Page");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();

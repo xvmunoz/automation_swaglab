@@ -73,8 +73,24 @@ public class CheckoutYourInformationTest {
     }
 
     @Test
-    public void validateLogoutActionFromCheckoutYourInformationPage(){
-        checkoutYourInformationPage.printTestTitleToConsole("Validate Logout Action From Checkout Your Information Page");
+    public void validateMenuAllItemsActionFromCheckoutYourInformationPage(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Menu All Items Action From Checkout Your Information Page");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.validateShoppingCartPage();
+        shoppingCartPage.validateItemsAddedFromProductPageAreDisplayedOnShoppingCartList(productsPage.shoppingCartItemsDetailsByItem);
+        shoppingCartPage.goToCheckOut();
+        checkoutYourInformationPage.validateCheckOutYourInformationPage();
+        checkoutYourInformationPage.menuPageOpenMenu();
+        checkoutYourInformationPage.validateMenuPage();
+        checkoutYourInformationPage.menuPageAllItems();
+        productsPage.validateProductsPage();
+    }
+
+    @Test
+    public void validateMenuLogoutActionFromCheckoutYourInformationPage(){
+        checkoutYourInformationPage.printTestTitleToConsole("Validate Menu Logout Action From Checkout Your Information Page");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();

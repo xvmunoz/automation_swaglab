@@ -9,12 +9,14 @@ public class MenuTest {
     private WebDriver driver;
     private SingInPage singInPage;
     private MenuPage menuPage;
+    private ProductsPage productsPage;
 
     @Before
     public void setUp(){
         singInPage = new SingInPage(driver);
         driver = singInPage.safariDriverConnection();
         menuPage = new MenuPage(driver);
+        productsPage = new ProductsPage(driver);
         menuPage.goTo("https://www.saucedemo.com");
     }
 
@@ -24,6 +26,16 @@ public class MenuTest {
         singInPage.signIn(1);
         menuPage.menuPageOpenMenu();
         menuPage.validateMenuPage();
+    }
+
+    @Test
+    public void validateAllItemsActionFromMenu(){
+        menuPage.printTestTitleToConsole("Validate All Items Action From Menu");
+        singInPage.signIn(1);
+        menuPage.menuPageOpenMenu();
+        menuPage.validateMenuPage();
+        menuPage.menuPageAllItems();
+        productsPage.validateProductsPage();
     }
 
     @Test

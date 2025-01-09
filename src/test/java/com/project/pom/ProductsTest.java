@@ -22,6 +22,7 @@ public class ProductsTest {
     public void productTest(){
         productsPage.printTestTitleToConsole("Product Test");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         int selectedProduct = productsPage.addToCart(0);
         productsPage.selectProductToSeeDetails(selectedProduct);
     }
@@ -30,13 +31,26 @@ public class ProductsTest {
     public void addProductsRandomly(){
         productsPage.printTestTitleToConsole("Add Products Randomly");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
     }
 
     @Test
-    public void validateLogoutActionFromProductsPage(){
-        productsPage.printTestTitleToConsole("Validate Logout Action From Products Page");
+    public void validateMenuAllItemsActionFromProductsPage(){
+        productsPage.printTestTitleToConsole("Validate Menu All Items Action From Products Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
+        productsPage.menuPageOpenMenu();
+        productsPage.validateMenuPage();
+        productsPage.menuPageAllItems();
+        productsPage.validateProductsPage();
+    }
+
+    @Test
+    public void validateMenuLogoutActionFromProductsPage(){
+        productsPage.printTestTitleToConsole("Validate Menu Logout Action From Products Page");
+        singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.menuPageOpenMenu();
         productsPage.validateMenuPage();
         productsPage.menuPageLogout();

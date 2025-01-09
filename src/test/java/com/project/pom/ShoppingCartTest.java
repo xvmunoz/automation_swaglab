@@ -91,8 +91,20 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void validateLogoutActionFromShoppingCartPage(){
-        shoppingCartPage.printTestTitleToConsole("Validate Logout Action From Shopping Cart Page");
+    public void validateMenuAllItemsActionFromShoppingCartPage(){
+        shoppingCartPage.printTestTitleToConsole("Validate Menu All Items Action From Shopping Cart Page");
+        singInPage.signIn(1);
+        productsPage.randomlyAddAllItemsToCart();
+        productsPage.goToShoppingCart();
+        shoppingCartPage.menuPageOpenMenu();
+        shoppingCartPage.validateMenuPage();
+        shoppingCartPage.menuPageAllItems();
+        productsPage.validateProductsPage();
+    }
+
+    @Test
+    public void validateMenuLogoutActionFromShoppingCartPage(){
+        shoppingCartPage.printTestTitleToConsole("Validate Menu Logout Action From Shopping Cart Page");
         singInPage.signIn(1);
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
