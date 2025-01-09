@@ -36,6 +36,7 @@ public class CheckoutCompleteTest {
     public void validateCheckoutCompletePageElementsArePresent(){
         checkoutCompletePage.printTestTitleToConsole("Validate Checkout Complete Page Elements Are Present");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -58,6 +59,7 @@ public class CheckoutCompleteTest {
     public void validateMenuAllItemsActionFromCheckoutCompletePage(){
         checkoutCompletePage.printTestTitleToConsole("Validate Menu All Items Action From Checkout Complete Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -84,6 +86,7 @@ public class CheckoutCompleteTest {
     public void validateMenuLogoutActionFromCheckoutCompletePage(){
         checkoutCompletePage.printTestTitleToConsole("Validate Menu Logout Action From Checkout Complete Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();

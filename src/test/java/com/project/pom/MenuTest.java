@@ -42,6 +42,7 @@ public class MenuTest {
     public void validateLogoutActionFromMenu(){
         menuPage.printTestTitleToConsole("Validate Logout Action From Menu");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         menuPage.menuPageOpenMenu();
         menuPage.validateMenuPage();
         menuPage.menuPageLogout();

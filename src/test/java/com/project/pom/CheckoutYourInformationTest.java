@@ -30,6 +30,7 @@ public class CheckoutYourInformationTest {
     public void addProductsToCartValidateItemsAddedOnShoppingCartThenStartCheckoutProcess(){
         checkoutYourInformationPage.printTestTitleToConsole("Add Products To Cart Validate Items Added On Shopping Cart Then Start Checkout Process");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -44,6 +45,7 @@ public class CheckoutYourInformationTest {
     public void validateIfCustomerInfoIsNotSetThenErrorMessagePopsUp(){
         checkoutYourInformationPage.printTestTitleToConsole("Validate If Customer Info Is Not Set, The Error Message Pops Up");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -57,6 +59,7 @@ public class CheckoutYourInformationTest {
     public void setCustomerInformationIfInfoIsSetGoToCheckoutOverviewPage(){
         checkoutYourInformationPage.printTestTitleToConsole("Set Customer Information, If Info Is Set, Go To Checkout Overview Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -76,6 +79,7 @@ public class CheckoutYourInformationTest {
     public void validateMenuAllItemsActionFromCheckoutYourInformationPage(){
         checkoutYourInformationPage.printTestTitleToConsole("Validate Menu All Items Action From Checkout Your Information Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -92,6 +96,7 @@ public class CheckoutYourInformationTest {
     public void validateMenuLogoutActionFromCheckoutYourInformationPage(){
         checkoutYourInformationPage.printTestTitleToConsole("Validate Menu Logout Action From Checkout Your Information Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();

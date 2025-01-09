@@ -34,6 +34,7 @@ public class CheckoutOverviewTest {
     public void validateCheckoutOverviewPageElementsArePresent(){
         checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Are Present");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -54,6 +55,7 @@ public class CheckoutOverviewTest {
     public void validateCheckoutOverviewPageElementsInfo(){
         checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page Elements Info");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -76,6 +78,7 @@ public class CheckoutOverviewTest {
     public void validateCheckoutOverviewPageSummaryValuesInfoMatches(){
         checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page Summary Values Info Matches");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -97,6 +100,7 @@ public class CheckoutOverviewTest {
     public void validateCheckoutOverviewPageAndCancel(){
         checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page And Cancel");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -121,6 +125,7 @@ public class CheckoutOverviewTest {
     public void validateCheckoutOverviewPageAndFinish(){
         checkoutOverviewPage.printTestTitleToConsole("Validate Checkout Overview Page And Finish");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -145,6 +150,7 @@ public class CheckoutOverviewTest {
     public void validateMenuAllItemsActionFromCheckoutOverviewPage(){
         checkoutOverviewPage.printTestTitleToConsole("Validate Menu All Items Action From Checkout Overview Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -170,6 +176,7 @@ public class CheckoutOverviewTest {
     public void validateMenuLogoutActionFromCheckoutOverviewPage(){
         checkoutOverviewPage.printTestTitleToConsole("Validate Menu Logout Action From Checkout Overview Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();

@@ -27,6 +27,7 @@ public class ShoppingCartTest {
     public void addProductsToCartAndValidateOnShoppingCart(){
         shoppingCartPage.printTestTitleToConsole("Add Products To Cart And Validate On Shopping Cart");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -38,6 +39,7 @@ public class ShoppingCartTest {
     public void addProductAndRemoveItFromShoppingCartList(){
         shoppingCartPage.printTestTitleToConsole("Add Product And Remove It From Shopping Cart List");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.addToCart(0);
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -52,6 +54,7 @@ public class ShoppingCartTest {
     public void addProductAndValidateOnShoppingCartList(){
         shoppingCartPage.printTestTitleToConsole("Add Product And Remove It From Shopping Cart List");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         while (productsPage.shoppingCartItemsDetailsByItem.size() < productsPage.getProducts().size()) {
             if(productsPage.shoppingCartItemsDetailsByItem.size() == productsPage.getProducts().size()){
                 break;
@@ -74,6 +77,7 @@ public class ShoppingCartTest {
     public void addAllProductsAndRemoveEachOneOnShoppingCartPageList(){
         shoppingCartPage.printTestTitleToConsole("Add All Products And Remove Each One On Shopping Cart Page List");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.validateShoppingCartPage();
@@ -94,6 +98,7 @@ public class ShoppingCartTest {
     public void validateMenuAllItemsActionFromShoppingCartPage(){
         shoppingCartPage.printTestTitleToConsole("Validate Menu All Items Action From Shopping Cart Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.menuPageOpenMenu();
@@ -106,6 +111,7 @@ public class ShoppingCartTest {
     public void validateMenuLogoutActionFromShoppingCartPage(){
         shoppingCartPage.printTestTitleToConsole("Validate Menu Logout Action From Shopping Cart Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         productsPage.randomlyAddAllItemsToCart();
         productsPage.goToShoppingCart();
         shoppingCartPage.menuPageOpenMenu();

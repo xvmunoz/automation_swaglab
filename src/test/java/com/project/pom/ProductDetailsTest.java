@@ -28,6 +28,7 @@ public class ProductDetailsTest {
     public void selectProductAndAddToCart(){
         productDetailsPage.printTestTitleToConsole("Select Product And Add To Cart");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         selectedProduct = 1;
         productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
         productAction = productDetailsPage.addToCartCurrentProduct();
@@ -39,6 +40,7 @@ public class ProductDetailsTest {
     public void selectAddedProductAndRemoveToCart(){
         productDetailsPage.printTestTitleToConsole("Select Added Product And Remove From Cart");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         selectedProduct = productsPage.addToCart(0);
         productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
         productAction = productDetailsPage.removeProductFromCart();
@@ -63,6 +65,7 @@ public class ProductDetailsTest {
     public void validateMenuLogoutActionFromProductsDetailsPage(){
         productDetailsPage.printTestTitleToConsole("Validate Menu Logout Action From Products Details Page");
         singInPage.signIn(1);
+        productsPage.validateProductsPage();
         selectedProduct = productsPage.addToCart(0);
         productDetailsPage.validateProductSelectedDetails(productsPage.selectProductToSeeDetails(selectedProduct));
         productDetailsPage.menuPageOpenMenu();
